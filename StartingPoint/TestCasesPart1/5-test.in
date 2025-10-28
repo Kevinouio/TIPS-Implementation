@@ -1,0 +1,15 @@
+PROGRAM     
+        SILENCE
+;
+
+
+
+    BEGIN
+
+
+        WRITE      (      ''     )
+
+
+    END
+
+

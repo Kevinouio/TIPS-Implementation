@@ -1,0 +1,8 @@
+INFO: Using the specific_data_bad.csv file for input
+line: 1  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 2  lexeme: |Probable Case|  length: 13  token: PROBABLE
+line: 3  lexeme: |Male|  length: 4  token: MALE
+line: 4  lexeme: |Female|  length: 6  token: FEMALE
+line: 8  lexeme: |Other|  length: 5  token: OTHER
+line: 8  lexeme: |2|  length: 1  token: UNKNOWN_TOKEN
+ERROR: unknown token

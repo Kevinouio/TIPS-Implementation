@@ -1,0 +1,12 @@
+PROGRAM SYMBOLS;
+VAR 
+  X : INTEGER; 
+  Y : REAL;
+BEGIN
+  X := 42;
+  Y := 3.14159265359;
+  WRITE('The answer is of course ');
+  WRITE(X);
+  WRITE(' unless the question is pi which is ');
+  WRITE(Y)
+END

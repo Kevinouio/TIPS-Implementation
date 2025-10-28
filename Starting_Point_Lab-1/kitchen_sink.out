@@ -1,0 +1,47 @@
+INFO: Using the kitchen_sink.csv file for input
+line: 1  lexeme: |2025/04/18|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Yes|  length: 3  token: YES
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |No|  length: 2  token: NO
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 2  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Probable Case|  length: 13  token: PROBABLE
+line: 3  lexeme: |Male|  length: 4  token: MALE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |Female|  length: 6  token: FEMALE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |Other|  length: 5  token: OTHER
+line: 4  lexeme: |0 - 9 Years|  length: 11  token: AGE_0X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |20 - 39 Years|  length: 13  token: AGE_2X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |40 - 49 Years|  length: 13  token: AGE_4X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |50 - 59 Years|  length: 13  token: AGE_5X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |60 - 69 Years|  length: 13  token: AGE_6X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |70 - 79 Years|  length: 13  token: AGE_7X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |80+ Years|  length: 9  token: AGE_8X
+line: 5  lexeme: |"Hispanic/Latino"|  length: 17  token: HISPANIC
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |"American Indian / Alaska Native, Non-Hispanic"|  length: 47  token: NATIVE_AMERICAN
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |"Asian, Non-Hispanic"|  length: 21  token: ASIAN
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |"Black, Non-Hispanic"|  length: 21  token: BLACK
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |"Native Hawaiian / Other Pacific Islander, Non-Hispanic"|  length: 56  token: PACIFIC_ISLANDER
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |"White, Non-Hispanic"|  length: 21  token: WHITE
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |"Multiple/Other, Non-Hispanic"|  length: 30  token: MULTIPLE_OTHER
+Found end of file...

@@ -1,0 +1,13 @@
+<sentence>
+├─ <noun phrase>
+│  ├─ <adjective phrase>
+│  │  ├─ POSSESSIVE  (My)
+│  │  └─ ADJECTIVE  (green)
+│  └─ NOUN  (dog)
+├─ <verb phrase>
+│  └─ VERB  (ate)
+└─ <noun phrase>
+   ├─ <adjective phrase>
+   │  ├─ POSSESSIVE  (your)
+   │  └─ ADJECTIVE  (blue)
+   └─ NOUN  (trousers)

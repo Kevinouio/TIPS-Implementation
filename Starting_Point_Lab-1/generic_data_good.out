@@ -1,0 +1,15 @@
+INFO: Using the generic_data_good.csv file for input
+line: 1  lexeme: |Yes|  length: 3  token: YES
+line: 1  lexeme: |yes|  length: 3  token: YES
+line: 1  lexeme: |No|  length: 2  token: NO
+line: 1  lexeme: |no|  length: 2  token: NO
+line: 3  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 4  lexeme: |unknown|  length: 7  token: UNKNOWN_VALUE
+line: 6  lexeme: |Missing|  length: 7  token: MISSING
+line: 6  lexeme: |missing|  length: 7  token: MISSING
+line: 6  lexeme: |Missing|  length: 7  token: MISSING
+line: 8  lexeme: |2020/01/01|  length: 10  token: DATE
+line: 8  lexeme: |2020/01/02|  length: 10  token: DATE
+line: 9  lexeme: |2020/24/24|  length: 10  token: DATE
+line: 9  lexeme: |2020/12/25|  length: 10  token: DATE
+Found end of file...

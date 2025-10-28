@@ -1,0 +1,4 @@
+PROGRAM BaNANA;
+BEGIN
+  WRITE('Split happens')
+END

@@ -1,0 +1,49 @@
+### FILE: 5-test.in
+### TOKENS (stdout)
+
+[1;33m===== BEGIN TOKENIZE =====[0m
+
+1 PROGRAM
+2 IDENT SILENCE
+3 SEMICOLON
+7 BEGIN
+10 WRITE
+10 OPENPAREN
+10 STRINGLIT ''
+10 CLOSEPAREN
+13 END
+16 EOF
+
+[1;33m===== TOKENIZE COMPLETE =====[0m
+
+
+### PARSE (stdout)
+
+[1;35m===== BEGIN PARSING =====[0m
+
+Program
+├── name: SILENCE
+└── Block
+    └── Write( '' )
+
+[1;35m===== PARSING COMPLETE =====[0m
+
+
+[1;33m===== BEGIN INTERPRETATION =====[0m
+
+''
+
+[1;33m===== INTERPRETATION COMPLETE =====[0m
+
+
+[32m===== Program executed successfully =====[0m
+
+
+### STDERR (tokens + parse)
+[tokens stderr]
+
+[parse stderr]
+
+### EXITCODES
+tokens_rc=0
+parse_rc=0

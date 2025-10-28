@@ -1,0 +1,14 @@
+<sentence>
+├─ <noun phrase>
+│  ├─ <adjective phrase>
+│  │  ├─ POSSESSIVE  (Your)
+│  │  └─ ADJECTIVE  (blue)
+│  └─ NOUN  (dog)
+├─ <verb phrase>
+│  ├─ ADVERB  (quickly)
+│  └─ VERB  (ate)
+└─ <noun phrase>
+   ├─ <adjective phrase>
+   │  ├─ POSSESSIVE  (your)
+   │  └─ ADJECTIVE  (green)
+   └─ NOUN  (homework)

@@ -1,0 +1,23 @@
+### FILE: 1-test.in
+### TOKENS (stdout)
+
+[1;33m===== BEGIN TOKENIZE =====[0m
+
+1 PROGRAM
+2 UNKNOWN
+
+### PARSE (stdout)
+
+[1;35m===== BEGIN PARSING =====[0m
+
+
+### STDERR (tokens + parse)
+[tokens stderr]
+Lexical error near: 'KNOCKKNOCK'
+
+[parse stderr]
+Parse error: expected IDENT after PROGRAM
+
+### EXITCODES
+tokens_rc=2
+parse_rc=2

@@ -1,0 +1,28 @@
+### FILE: 4-test.in
+### TOKENS (stdout)
+
+[1;33m===== BEGIN TOKENIZE =====[0m
+
+1 PROGRAM
+1 IDENT CHICKEN
+2 SEMICOLON
+3 BEGIN
+4 WRITE
+4 OPENPAREN
+4 UNKNOWN
+
+### PARSE (stdout)
+
+[1;35m===== BEGIN PARSING =====[0m
+
+
+### STDERR (tokens + parse)
+[tokens stderr]
+Lexical error near: ''Why did the chicken'
+
+[parse stderr]
+Parse error: expected STRINGLIT inside WRITE(...)
+
+### EXITCODES
+tokens_rc=2
+parse_rc=2

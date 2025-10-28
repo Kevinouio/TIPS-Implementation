@@ -1,0 +1,3 @@
+INFO: Using the generic_data_bad.csv file for input
+line: 2  lexeme: |2|  length: 1  token: UNKNOWN_TOKEN
+ERROR: unknown token

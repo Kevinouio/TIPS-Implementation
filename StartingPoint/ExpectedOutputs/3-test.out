@@ -1,0 +1,24 @@
+### FILE: 3-test.in
+### TOKENS (stdout)
+
+[1;33m===== BEGIN TOKENIZE =====[0m
+
+1 PROGRAM
+1 IDENT B
+1 UNKNOWN
+
+### PARSE (stdout)
+
+[1;35m===== BEGIN PARSING =====[0m
+
+
+### STDERR (tokens + parse)
+[tokens stderr]
+Lexical error near: 'a'
+
+[parse stderr]
+Parse error (line 1): expected SEMICOLON — after program name, got UNKNOWN [a]
+
+### EXITCODES
+tokens_rc=2
+parse_rc=2

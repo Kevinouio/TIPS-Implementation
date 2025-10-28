@@ -1,0 +1,11 @@
+PROGRAM LAUNCHCONTROL;
+BEGIN
+  WRITE('Mission Control: enter rocket count: );
+  READ(ROCKETS);     
+  BEGIN
+  BEGIN
+    WRITE('Status: arming sequence initiated. There's no stopping me now');
+  END       
+END;
+##insert funny comment here
+

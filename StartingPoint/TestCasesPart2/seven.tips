@@ -1,0 +1,25 @@
+PROGRAM 7helpDSK;
+VAR
+  TICKET : INTEGER;
+  FEE    : REAL;
+
+BEGIN
+  WRITE('Welcome to Terminal 7 Customer Assistance.');
+  WRITE('Please enter the number of lost-luggage tickets you are *absolutely sure* you didn't misplace: ');
+  READ(TICKET, FEE);  
+
+  WRITE('Hmmmm...well now that is a very interesting personal choice you have made. So it is your opinion that we have accommodated you in failing to keep track of your own personal belongings and now you want us to do something about it to make your day a little better....does that sound right? Also, because you did not think to ask me how my day was going or even say hello first, yes — this is a single WRITE with a string literal way too long to actually work in TIPS. So -- Deal with it.');
+  
+  FEE := 12.99 * HASSLE; 
+
+  WRITE('Processing fee schedule.....   ...   ...   ... ');
+  WRITE('Note: per policy section 47-B, clause 9, sub-paragraph iii, there is a surcharge of whatever I feel like today.');
+
+  BEGIN
+    WRITE('Now printing your claim form. Please do not walk away while we "expedite" the process. Time remaining: ');
+    WRITE(123456789)
+  END;
+
+  WRITE('Thank you for your *patience* or whatever.');
+END
+WRITE('Additional notice: baggage may arrive sometime this century.')

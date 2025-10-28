@@ -1,0 +1,31 @@
+PROGRAM COFFEE;
+VAR
+  CUPS  : INTEGER;
+  EXTRA : INTEGER;
+  TOTAL : INTEGER;
+  COST  : REAL;
+BEGIN
+  WRITE('Welcome to the Compiler Café!');
+  WRITE('How many cups of our finest bean water would you like today? ');
+  READ(CUPS);
+
+  BEGIN
+    WRITE('Perfect — ');
+    WRITE(CUPS);
+    WRITE(' cup(s) coming right up. ');
+    WRITE('Now, how many extra shots of rocket fuel should we add? ');
+    READ(EXTRA);
+
+    WRITE('Got it — ');
+    WRITE(EXTRA);
+    WRITE(' extra shot(s). Your order is admirable, indeed.')
+  END;
+
+  TOTAL := CUPS;
+  WRITE(' Altogether, that will be ');
+  WRITE(TOTAL);
+  COST := 6.024;
+  WRITE(' units of java joy. At approximately $6.02397 per unit...so that will be ');
+  WRITE(COST);
+  WRITE(' times how ever much you ordered. I cannot do the math yet.')
+END

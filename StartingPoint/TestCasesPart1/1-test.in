@@ -1,0 +1,23 @@
+PROGRAM 
+		KNOCKKNOCK
+
+;
+			BEGIN
+
+  WRITE			(
+
+'Who’s there?')
+
+
+
+
+
+			END
+
+
+
+
+
+
+
+

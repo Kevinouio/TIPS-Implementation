@@ -1,0 +1,7 @@
+PROGRAM 
+SAYWHAT
+;
+BEGIN
+	WRITE
+(	'!@#$%^&*     This too should work, right?   ?><":|,./;'	)
+END

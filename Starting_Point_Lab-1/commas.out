@@ -1,0 +1,307 @@
+INFO: Using the commas.csv file for input
+line: 1  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |2020/04/18|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Female|  length: 6  token: FEMALE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |0 - 9 Years|  length: 11  token: AGE_0X
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 2  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |2020/11/12|  length: 10  token: DATE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Female|  length: 6  token: FEMALE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |"White, Non-Hispanic"|  length: 21  token: WHITE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |No|  length: 2  token: NO
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Missing|  length: 7  token: MISSING
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |No|  length: 2  token: NO
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Missing|  length: 7  token: MISSING
+line: 3  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |2020/06/15|  length: 10  token: DATE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |Probable Case|  length: 13  token: PROBABLE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |Female|  length: 6  token: FEMALE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |"White, Non-Hispanic"|  length: 21  token: WHITE
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |No|  length: 2  token: NO
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |No|  length: 2  token: NO
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |No|  length: 2  token: NO
+line: 3  lexeme: |,|  length: 1  token: SEPARATOR
+line: 3  lexeme: |Yes|  length: 3  token: YES
+line: 4  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |2020/06/21|  length: 10  token: DATE
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |probable case|  length: 13  token: PROBABLE
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |female|  length: 6  token: FEMALE
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |"white, Non-Hispanic"|  length: 21  token: WHITE
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |No|  length: 2  token: NO
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |Missing|  length: 7  token: MISSING
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |no|  length: 2  token: NO
+line: 4  lexeme: |,|  length: 1  token: SEPARATOR
+line: 4  lexeme: |Missing|  length: 7  token: MISSING
+line: 5  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |2020/12/18|  length: 10  token: DATE
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |Female|  length: 6  token: FEMALE
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |"Multiple/Other, Non-Hispanic"|  length: 30  token: MULTIPLE_OTHER
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |No|  length: 2  token: NO
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |Missing|  length: 7  token: MISSING
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |No|  length: 2  token: NO
+line: 5  lexeme: |,|  length: 1  token: SEPARATOR
+line: 5  lexeme: |Missing|  length: 7  token: MISSING
+line: 6  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |2020/07/29|  length: 10  token: DATE
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |Male|  length: 4  token: MALE
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |Missing|  length: 7  token: MISSING
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |Missing|  length: 7  token: MISSING
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |No|  length: 2  token: NO
+line: 6  lexeme: |,|  length: 1  token: SEPARATOR
+line: 6  lexeme: |Missing|  length: 7  token: MISSING
+line: 7  lexeme: |,|  length: 1  token: SEPARATOR
+line: 7  lexeme: |,|  length: 1  token: SEPARATOR
+line: 7  lexeme: |,|  length: 1  token: SEPARATOR
+line: 7  lexeme: |,|  length: 1  token: SEPARATOR
+line: 7  lexeme: |,|  length: 1  token: SEPARATOR
+line: 7  lexeme: |,|  length: 1  token: SEPARATOR
+line: 8  lexeme: |,|  length: 1  token: SEPARATOR
+line: 8  lexeme: |,|  length: 1  token: SEPARATOR
+line: 8  lexeme: |,|  length: 1  token: SEPARATOR
+line: 8  lexeme: |,|  length: 1  token: SEPARATOR
+line: 8  lexeme: |,|  length: 1  token: SEPARATOR
+line: 8  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |2020/04/18|  length: 10  token: DATE
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |Female|  length: 6  token: FEMALE
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |0 - 9 Years|  length: 11  token: AGE_0X
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |Missing|  length: 7  token: MISSING
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |Missing|  length: 7  token: MISSING
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |Missing|  length: 7  token: MISSING
+line: 9  lexeme: |,|  length: 1  token: SEPARATOR
+line: 9  lexeme: |Missing|  length: 7  token: MISSING
+line: 10  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |2020/11/12|  length: 10  token: DATE
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |Female|  length: 6  token: FEMALE
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |"White, Non-Hispanic"|  length: 21  token: WHITE
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |No|  length: 2  token: NO
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |Missing|  length: 7  token: MISSING
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |No|  length: 2  token: NO
+line: 10  lexeme: |,|  length: 1  token: SEPARATOR
+line: 10  lexeme: |Missing|  length: 7  token: MISSING
+line: 11  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |2020/06/15|  length: 10  token: DATE
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |Probable Case|  length: 13  token: PROBABLE
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |Female|  length: 6  token: FEMALE
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |"White, Non-Hispanic"|  length: 21  token: WHITE
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |No|  length: 2  token: NO
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |No|  length: 2  token: NO
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |No|  length: 2  token: NO
+line: 11  lexeme: |,|  length: 1  token: SEPARATOR
+line: 11  lexeme: |Yes|  length: 3  token: YES
+line: 12  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |2020/06/21|  length: 10  token: DATE
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |probable case|  length: 13  token: PROBABLE
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |female|  length: 6  token: FEMALE
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |"white, Non-Hispanic"|  length: 21  token: WHITE
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |No|  length: 2  token: NO
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |Missing|  length: 7  token: MISSING
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |no|  length: 2  token: NO
+line: 12  lexeme: |,|  length: 1  token: SEPARATOR
+line: 12  lexeme: |Missing|  length: 7  token: MISSING
+line: 13  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |2020/12/18|  length: 10  token: DATE
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |Female|  length: 6  token: FEMALE
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |"Multiple/Other, Non-Hispanic"|  length: 30  token: MULTIPLE_OTHER
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |No|  length: 2  token: NO
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |Missing|  length: 7  token: MISSING
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |No|  length: 2  token: NO
+line: 13  lexeme: |,|  length: 1  token: SEPARATOR
+line: 13  lexeme: |Missing|  length: 7  token: MISSING
+line: 14  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |2020/07/29|  length: 10  token: DATE
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |Male|  length: 4  token: MALE
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |Missing|  length: 7  token: MISSING
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |Missing|  length: 7  token: MISSING
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |No|  length: 2  token: NO
+line: 14  lexeme: |,|  length: 1  token: SEPARATOR
+line: 14  lexeme: |Missing|  length: 7  token: MISSING
+line: 15  lexeme: |,|  length: 1  token: SEPARATOR
+line: 16  lexeme: |,|  length: 1  token: SEPARATOR
+line: 16  lexeme: |,|  length: 1  token: SEPARATOR
+line: 17  lexeme: |,|  length: 1  token: SEPARATOR
+line: 17  lexeme: |,|  length: 1  token: SEPARATOR
+line: 17  lexeme: |,|  length: 1  token: SEPARATOR
+line: 18  lexeme: |,|  length: 1  token: SEPARATOR
+line: 18  lexeme: |,|  length: 1  token: SEPARATOR
+line: 18  lexeme: |,|  length: 1  token: SEPARATOR
+line: 18  lexeme: |,|  length: 1  token: SEPARATOR
+line: 19  lexeme: |Missing|  length: 7  token: MISSING
+line: 19  lexeme: |,|  length: 1  token: SEPARATOR
+line: 19  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 19  lexeme: |,|  length: 1  token: SEPARATOR
+Found end of file...

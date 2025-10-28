@@ -1,0 +1,48 @@
+INFO: Using the another.csv file for input
+line: 1  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |2020/04/18|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Female|  length: 6  token: FEMALE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |0 - 9 Years|  length: 11  token: AGE_0X
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Unknown|  length: 7  token: UNKNOWN_VALUE
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 1  lexeme: |,|  length: 1  token: SEPARATOR
+line: 1  lexeme: |Missing|  length: 7  token: MISSING
+line: 2  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |2020/11/12|  length: 10  token: DATE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |2020/02/01|  length: 10  token: DATE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |female|  length: 6  token: FEMALE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |"White, Non-Hispanic"|  length: 21  token: WHITE
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |No|  length: 2  token: NO
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Missing|  length: 7  token: MISSING
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |No|  length: 2  token: NO
+line: 2  lexeme: |,|  length: 1  token: SEPARATOR
+line: 2  lexeme: |Missing|  length: 7  token: MISSING
+line: 3  lexeme: |2|  length: 1  token: UNKNOWN_TOKEN
+ERROR: unknown token

@@ -1,0 +1,30 @@
+INFO: Using the specific_data_good.csv file for input
+line: 1  lexeme: |Laboratory-confirmed case|  length: 25  token: LABORATORY
+line: 2  lexeme: |Probable Case|  length: 13  token: PROBABLE
+line: 3  lexeme: |Male|  length: 4  token: MALE
+line: 4  lexeme: |Female|  length: 6  token: FEMALE
+line: 5  lexeme: |Other|  length: 5  token: OTHER
+line: 6  lexeme: |0 - 9 Years|  length: 11  token: AGE_0X
+line: 6  lexeme: |10 - 19 Years|  length: 13  token: AGE_1X
+line: 6  lexeme: |20 - 39 Years|  length: 13  token: AGE_2X
+line: 7  lexeme: |40 - 49 Years|  length: 13  token: AGE_4X
+line: 8  lexeme: |50 - 59 Years|  length: 13  token: AGE_5X
+line: 11  lexeme: |60 - 69 Years|  length: 13  token: AGE_6X
+line: 12  lexeme: |70 - 79 Years|  length: 13  token: AGE_7X
+line: 13  lexeme: |80+ Years|  length: 9  token: AGE_8X
+line: 14  lexeme: |"Hispanic/Latino"|  length: 17  token: HISPANIC
+line: 15  lexeme: |"American Indian / Alaska Native, Non-Hispanic"|  length: 47  token: NATIVE_AMERICAN
+line: 16  lexeme: |"Asian, Non-Hispanic"|  length: 21  token: ASIAN
+line: 17  lexeme: |"Black, Non-Hispanic"|  length: 21  token: BLACK
+line: 18  lexeme: |"Native Hawaiian / Other Pacific Islander, Non-Hispanic"|  length: 56  token: PACIFIC_ISLANDER
+line: 19  lexeme: |"White, Non-Hispanic"|  length: 21  token: WHITE
+line: 20  lexeme: |"Multiple/Other, Non-Hispanic"|  length: 30  token: MULTIPLE_OTHER
+line: 23  lexeme: |laboratory-confirmed Case|  length: 25  token: LABORATORY
+line: 23  lexeme: |probable case|  length: 13  token: PROBABLE
+line: 24  lexeme: |male|  length: 4  token: MALE
+line: 24  lexeme: |female|  length: 6  token: FEMALE
+line: 24  lexeme: |other|  length: 5  token: OTHER
+line: 25  lexeme: |0 - 9 years|  length: 11  token: AGE_0X
+line: 28  lexeme: |80+ years|  length: 9  token: AGE_8X
+line: 30  lexeme: |"asian, Non-Hispanic"|  length: 21  token: ASIAN
+Found end of file...

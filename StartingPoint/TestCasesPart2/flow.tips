@@ -1,0 +1,14 @@
+PROGRAM FLOW;
+VAR
+  N : INTEGER;
+  M : INTEGER;
+BEGIN
+  READ(N); 
+  BEGIN
+    WRITE('got ');
+    WRITE(N)
+  END;
+  M := N;
+  WRITE(' copied to M = ');
+  WRITE(M)
+END

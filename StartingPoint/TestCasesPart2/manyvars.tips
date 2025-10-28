@@ -1,0 +1,20 @@
+PROGRAM MANYVARS;
+VAR
+  A : INTEGER;
+  B : REAL;
+  C : INTEGER;
+  D : REAL;
+  E : INTEGER;
+  F : REAL;
+  G : INTEGER;
+  H : REAL;
+BEGIN
+  A := 1;      B := 2.0;
+  C := A;      D := B;
+  E := 12345;  F := 0.0009765625;  
+  G := E;      H := F;
+  WRITE('A='); WRITE(A); WRITE(', B='); WRITE(B);
+  WRITE(', C='); WRITE(C); WRITE(', D='); WRITE(D);
+  WRITE(', E='); WRITE(E); WRITE(', F='); WRITE(F);
+  WRITE(', G='); WRITE(G); WRITE(', H='); WRITE(H)
+END

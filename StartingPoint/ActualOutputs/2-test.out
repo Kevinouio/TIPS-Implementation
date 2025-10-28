@@ -1,0 +1,49 @@
+### FILE: 2-test.in
+### TOKENS (stdout)
+
+[1;33m===== BEGIN TOKENIZE =====[0m
+
+1 PROGRAM
+2 IDENT SAYWHAT
+3 SEMICOLON
+4 BEGIN
+5 WRITE
+6 OPENPAREN
+6 STRINGLIT '!@#$%^&*     This too should work, right?   ?><":|,./;'
+6 CLOSEPAREN
+7 END
+7 EOF
+
+[1;33m===== TOKENIZE COMPLETE =====[0m
+
+
+### PARSE (stdout)
+
+[1;35m===== BEGIN PARSING =====[0m
+
+Program
+├── name: SAYWHAT
+└── Block
+    └── Write( '!@#$%^&*     This too should work, right?   ?><":|,./;' )
+
+[1;35m===== PARSING COMPLETE =====[0m
+
+
+[1;33m===== BEGIN INTERPRETATION =====[0m
+
+'!@#$%^&*     This too should work, right?   ?><":|,./;'
+
+[1;33m===== INTERPRETATION COMPLETE =====[0m
+
+
+[32m===== Program executed successfully =====[0m
+
+
+### STDERR (tokens + parse)
+[tokens stderr]
+
+[parse stderr]
+
+### EXITCODES
+tokens_rc=0
+parse_rc=0
