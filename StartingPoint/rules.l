@@ -1,7 +1,7 @@
 /*****************************************************************************
  * rules.l - Flex Rules for TIPS Language Subset
  * MSU CSE 4714/6714 Capstone Project (Fall 2025)
- * Author: Derek Willis
+ * Author: Kevin Ho
 *****************************************************************************/
 %option noyywrap nodefault nounput
 %option yylineno
@@ -17,8 +17,8 @@ S80               {SCHAR}{0,80}
 S81PLUS           {SCHAR}{81,}
 ID_SHORT          [A-Z][A-Z0-9]{0,7}
 ID_LONG           [A-Z][A-Z0-9]{8,}
-NUM             [0-9]
-NUMS            {DIGIT}{1,}
+NUM               [0-9]
+NUMS              {NUM}{1,}
 
 
 %%
