@@ -10,10 +10,17 @@
 #include <sstream>
 #include <string>
 #include <set>
+#include <map>
+#include <variant>
 #include "lexer.h"
 #include "ast.h"
 #include "debug.h"
 using namespace std;
+
+// -----------------------------------------------------------------------------
+// Global Variable
+// -----------------------------------------------------------------------------
+map<string, variant<int,double>> symbolTable; 
 
 // -----------------------------------------------------------------------------
 // One-token lookahead
@@ -81,6 +88,17 @@ static void parseDeclarations(vector<Decl>& outDecls) {
     expect(IDENT, "declaration name");
     expect(COLON, "':' after identifier in declaration");
     d.type = parseType();
+    if (symbolTable.count(d.name)) {
+      throw runtime_error("Parse error: duplicate declaration of " + d.name);
+    }
+
+    if (d.type == Decl::Type::Int)  { 
+      symbolTable[d.name] = 0;
+    }
+    else {
+      symbolTable[d.name] = 0.0;
+    }
+
     expect(SEMICOLON, "';' after declaration");
     outDecls.push_back(std::move(d));
   }
@@ -117,6 +135,9 @@ static unique_ptr<Statement> parseWriteStmt() {
     stmt = std::move(w);
   } else if (peek() == IDENT) {
     string id = peekLex;
+    if (!symbolTable.count(id)){
+      throw runtime_error("Parse error: WRITE of undeclared identifier " + id);
+    }
     expect(IDENT, "identifier in WRITE(...)");
     expect(CLOSEPAREN, "expected ')' after identifier");
     auto w = make_unique<WriteStmt>(WriteStmt::ArgKind::Id, id);
@@ -132,6 +153,9 @@ static unique_ptr<Statement> parseReadStmt() {
   expect(READ, "in read statement");
   if (peek() != IDENT) throw runtime_error("Parse error: expected IDENT after READ");
   string id = peekLex;
+  if (!symbolTable.count(id)){
+    throw runtime_error("Parse error: READ of undeclared identifier " + id);
+  }
   expect(IDENT, "identifier to READ into");
   consume_if(SEMICOLON);
   return make_unique<ReadStmt>(id);

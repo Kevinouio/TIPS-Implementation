@@ -14,8 +14,16 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <variant>
+#include <stdexcept>
 #include <iostream>
 using namespace std;
+
+
+// -----------------------------------------------------------------------------
+// Global Variable
+// -----------------------------------------------------------------------------
+extern map<string, variant<int,double>> symbolTable;
 
 // -----------------------------------------------------------------------------
 // Pretty printer
@@ -60,10 +68,55 @@ struct Statement {
   virtual void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const = 0;
   virtual void interpret(ostream& out) const { (void)out; }  // Step 4 will implement behavior
 };
+struct ReadStmt : Statement {
+  string id;
+  explicit ReadStmt(string id_) : id(std::move(id_)) {}
+
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "Read(" + id + ")");
+  }
+
+  void interpret(ostream& out) const override {
+    auto it = symbolTable.find(id);
+    if (it == symbolTable.end())
+      throw runtime_error("Runtime error: READ of undeclared identifier " + id);
+    if (holds_alternative<int>(it->second)) {
+      int v; if (!(cin >> v)) throw runtime_error("Input error: expected INTEGER for " + id);
+      it->second = v;
+    } else {
+      double v; if (!(cin >> v)) throw runtime_error("Input error: expected REAL for " + id);
+      it->second = v;
+    }
+  }
+};
+
+struct WriteStmt : Statement {
+  enum class ArgKind { Str, Id };
+  ArgKind kind;
+  string text_or_id;
+
+  WriteStmt(ArgKind k, string v) : kind(k), text_or_id(std::move(v)) {}
+
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    string payload = (kind == ArgKind::Str) ? ("'" + text_or_id + "'") : text_or_id;
+    ast_line(os, prefix, isLast, "Write(" + payload + ")");
+  }
+
+  void interpret(ostream& out) const override {
+    if (kind == ArgKind::Str) {
+      out << "'" << text_or_id << "'" << '\n';
+      return;
+    }
+    auto it = symbolTable.find(text_or_id);
+    if (it == symbolTable.end())
+      throw runtime_error("Runtime error: WRITE of undeclared identifier " + text_or_id);
+    visit([&](auto&& v){ out << v << '\n'; }, it->second);
+  }
+};
 
 struct AssignStmt : Statement {
   string id;
-  unique_ptr<Value> rhs;  // Part 2 only supports Value on RHS
+  unique_ptr<Value> rhs;
 
   AssignStmt(string id_, unique_ptr<Value> rhs_)
     : id(std::move(id_)), rhs(std::move(rhs_)) {}
@@ -72,29 +125,32 @@ struct AssignStmt : Statement {
     ast_line(os, prefix, isLast, "Assign " + id + " :=");
     if (rhs) rhs->print_tree(os, kid_prefix(prefix, isLast), true);
   }
-};
 
-struct ReadStmt : Statement {
-  string id;
-  explicit ReadStmt(string id_) : id(std::move(id_)) {}
+  void interpret(ostream& out) const override {
+    auto itL = symbolTable.find(id);
+    if (itL == symbolTable.end())
+      throw runtime_error("Runtime error: ASSIGN to undeclared identifier " + id);
 
-  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
-    ast_line(os, prefix, isLast, "Read(" + id + ")");
+    auto fetchIdent = [](const string& name) -> double {
+      auto it = symbolTable.find(name);
+      if (it == symbolTable.end())
+        throw runtime_error("Runtime error: undeclared identifier on RHS: " + name);
+      return holds_alternative<int>(it->second) ? static_cast<double>(get<int>(it->second))
+                                                : get<double>(it->second);
+    };
+
+    double r = 0.0;
+    switch (rhs->kind) {
+      case Value::Kind::IntLit:   r = static_cast<double>(stoi(rhs->lexeme)); break;
+      case Value::Kind::FloatLit: r = stod(rhs->lexeme); break;
+      case Value::Kind::Ident:    r = fetchIdent(rhs->lexeme); break;
+    }
+
+    if (holds_alternative<int>(itL->second)) itL->second = static_cast<int>(r); // truncate
+    else                                     itL->second = r;                   // widen or keep real
   }
 };
 
-struct WriteStmt : Statement {
-  enum class ArgKind { Str, Id };   // renamed to avoid STRING/IDENT collisions
-  ArgKind kind;
-  string text_or_id; // string literal (no quotes) or identifier
-
-  WriteStmt(ArgKind k, string v) : kind(k), text_or_id(std::move(v)) {}
-
-  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
-    string payload = (kind == ArgKind::Str) ? ("'" + text_or_id + "'") : text_or_id;
-    ast_line(os, prefix, isLast, "Write(" + payload + ")");
-  }
-};
 
 struct CompoundStmt : Statement {
   vector<unique_ptr<Statement>> stmts;  // sequence inside BEGIN ... END

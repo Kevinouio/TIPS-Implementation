@@ -31,6 +31,8 @@
 #include <cstring>
 #include <iostream>
 #include <memory>
+#include <map>
+#include <variant>
 #include <string>
 #include "lexer.h"  // Scanner functions: yylex, yyin, yylineno, yytext, tokName()
 #include "debug.h"  // Debug flag support: dbg::set(bool)
@@ -44,6 +46,7 @@ using namespace std;
 // gSkinStorage must stay alive so gSkinC remains a valid C-style string.
 // -----------------------------------------------------------------------------
 extern "C" const char* gSkinC;
+extern map<string, variant<int,double>> symbolTable;
 string gSkinStorage = "default";
 const char* gSkinC = gSkinStorage.c_str();
 
@@ -170,6 +173,16 @@ int main(int argc, char** argv)
         banner("BEGIN INTERPRETATION", C_YBOLD);
         // WRITE statements should print to stdout by spec
         root->interpret(cout);
+        if (FLAG_SYMBOLS) {
+            banner("SYMBOL TABLE", C_CYAN);
+            for (const auto& [name, val] : symbolTable) {
+                if (holds_alternative<int>(val))
+                    cout << name << " : INTEGER = " << get<int>(val) << "\n";
+                else
+                    cout << name << " : REAL = " << get<double>(val) << "\n";
+            }
+        }
+
         banner("INTERPRETATION COMPLETE", C_YBOLD);
 
         // Display success
@@ -185,4 +198,6 @@ int main(int argc, char** argv)
 
     if (in && in!=stdin) fclose(in);
     return 0;
+    
 }
+
