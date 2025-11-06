@@ -46,6 +46,15 @@ REAL                                  { return REAL; }
 ":="                                    { return ASSIGN; }
 ":"                                     { return COLON; }
 
+"+"                                     { return PLUS; }
+"-"                                     { return MINUS; }
+"^^"                                    { return CUSTOM_OPER; }
+"/"                                     { return DIVIDE; }
+"*"                                     { return PLUS; }
+MOD                                     { return MOD; }
+"++"                                    { return INCREMENT; }
+"--"                                    { return DECREMENT; }
+
 
 {ID_LONG}                               { return UNKNOWN; }
 {ID_SHORT}                              { return IDENT; }

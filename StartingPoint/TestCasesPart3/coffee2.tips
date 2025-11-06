@@ -1,0 +1,20 @@
+PROGRAM COFFEE2;
+VAR
+  QTY: INTEGER;
+  PRICE: REAL;
+  DISC: INTEGER;
+  TOTAL: REAL;
+BEGIN
+  WRITE('Welcome to Tipsy Beans!');
+  WRITE('Enter number of cups:');
+  READ(QTY);
+  WRITE('Enter price per cup:');
+  READ(PRICE);
+  WRITE('Enter discount percent as a whole number (e.g., 10 for 10%):');
+  READ(DISC);
+
+  TOTAL := QTY * PRICE - QTY * PRICE * DISC / 100;
+
+  WRITE('TOTAL:');
+  WRITE(TOTAL)
+END

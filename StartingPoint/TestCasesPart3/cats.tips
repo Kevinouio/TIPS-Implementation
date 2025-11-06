@@ -1,0 +1,28 @@
+PROGRAM CATFOOD;
+VAR
+  MEALS: INTEGER;
+  GRAMS: INTEGER;
+  BAG: INTEGER;
+  DAYS: INTEGER;
+  DAILY: INTEGER;
+  SUPP: INTEGER;
+  EXTRA: INTEGER;
+BEGIN
+  WRITE('Cat Feeder Planner');
+  WRITE('Enter number of meals per day:');
+  READ(MEALS);
+  WRITE('Enter grams of food per meal:');
+  READ(GRAMS);
+  WRITE('Enter total grams in bag:');
+  READ(BAG);
+  WRITE('Enter number of days to plan for:');
+  READ(DAYS);
+
+  DAILY := MEALS * GRAMS;                     
+  SUPP  := BAG / DAILY;                       
+  EXTRA := (BAG - MEALS * GRAMS * DAYS) MOD DAILY;
+
+  WRITE('Daily food (grams):'); WRITE(DAILY);
+  WRITE('Days supported (int div):'); WRITE(SUPP);
+  WRITE('Extra before refill (mod):'); WRITE(EXTRA)
+END

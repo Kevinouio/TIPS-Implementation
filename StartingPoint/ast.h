@@ -1,5 +1,5 @@
 // =============================================================================
-//   ast.h — AST for TIPS Subset (matches PDF diagrams)
+//   ast.h â€” AST for TIPS Subset (matches PDF diagrams)
 // =============================================================================
 // MSU CSE 4714/6714 Capstone Project (Fall 2025)
 // Author: Kevin Ho
@@ -168,6 +168,11 @@ struct CompoundStmt : Statement {
     }
     ast_line(os, prefix, true, "END");
   }
+  void interpret(ostream& out) const override {
+    for (auto& s : stmts) {
+      s->interpret(out);
+    }
+  }
 };
 
 
@@ -183,7 +188,6 @@ struct Block {
   vector<Decl> decls;                    // optional VAR declarations
   unique_ptr<CompoundStmt> body;         // BEGIN ... END
 
-  unique_ptr<Write> write;
 
   void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const {
     ast_line(os, prefix, isLast, "Block");
@@ -191,20 +195,18 @@ struct Block {
 
     if (!decls.empty()) {
       // "VAR" line
-      ast_line(os, kid, (!body && !write), "VAR");
-      string varkid = kid_prefix(kid, (!body && !write));
+      ast_line(os, kid, !body, "VAR");  
+      string varkid = kid_prefix(kid, !body);  
       for (size_t i = 0; i < decls.size(); ++i) {
         const auto& d = decls[i];
         string typ = (d.type == Decl::Type::Int) ? "INTEGER" : "REAL";
-        bool lastDecl = (i + 1 == decls.size()) && !body && !write;
+        bool lastDecl = (i + 1 == decls.size()) && !body;  
         ast_line(os, varkid, lastDecl, d.name + " : " + typ + ";");
       }
     }
 
     if (body) {
-      body->print_tree(os, kid, write == nullptr);
-    } else if (write) {
-      write->print_tree(os, kid, true);
+      body->print_tree(os, kid, true);  
     } else if (decls.empty()) {
       ast_line(os, kid, true, "(empty)");
     }
@@ -213,12 +215,9 @@ struct Block {
   void interpret(ostream& out) const {
     if (body) {
       for (auto& s : body->stmts) s->interpret(out);
-    } else if (write) {
-      write->interpret(out);
     }
   }
 };
-
 struct Program 
 {
   string name; 

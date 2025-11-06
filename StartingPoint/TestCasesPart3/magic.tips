@@ -1,0 +1,46 @@
+PROGRAM MAGICDUO;
+VAR
+  A: INTEGER;
+  B: INTEGER;
+  WORK: INTEGER;
+  RESULT1: INTEGER;
+  RESULT2: INTEGER;
+BEGIN
+  WRITE('Welcome to The Great Math Magician!');
+  WRITE('Let the first trick begin.');
+  WRITE('Think of any whole number and type it here:');
+  READ(A);
+
+  WRITE('Good. Now watch this closely...');
+  WRITE('Multiply your number by 3.');
+  WORK := A * 3;
+  WRITE('Add 6.');
+  WORK := WORK + 6;
+  WRITE('Divide by 3.');
+  WORK := WORK / 3;
+  WRITE('Finally, subtract your original number.');
+  RESULT1 := WORK - A;
+
+  WRITE('And as the dust settles, your result is...');
+  WRITE(RESULT1);
+  WRITE('Amazing? But the show is not over yet!');
+
+  WRITE('For my next illusion, I need another number.');
+  WRITE('Pick a different one and type it in:');
+  READ(B);
+
+  WRITE('Excellent. Now I shall bend the rules of math itself...');
+  BEGIN
+    WRITE('First, I will give your number a little boost.');
+    B := ++B;
+    WRITE('Then witness the power of perfect balance.');
+    WORK := (B + 1) ^^ 2;
+    WORK := WORK - (B ^^ 2);
+    WORK := WORK - (2 * B);
+    RESULT2 := WORK + 1
+  END;
+
+  WRITE('Behold! No matter what you entered, the final revelation is...');
+  WRITE(RESULT2);
+  WRITE('Thank you, thank you! The magic never lies.')
+END

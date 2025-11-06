@@ -1,0 +1,32 @@
+PROGRAM POWFOCUS;
+VAR
+  A: INTEGER; B: INTEGER; C: INTEGER;
+  X: INTEGER; Y: INTEGER; Z: INTEGER;
+  BIG32: INTEGER; BIG64: INTEGER;
+BEGIN
+  WRITE('Power Focus Test');
+  WRITE('Enter three small integers:');
+  READ(A); READ(B); READ(C);
+
+  WRITE('Associativity check...');
+  X := A ^^ B ^^ C;      
+  Y := (A ^^ B) ^^ C;    
+
+  BEGIN
+    WRITE('Precedence check with unary minus...');
+    B:=++B; B:=--B;            
+    Z := -3 ^^ 2       
+  END;
+
+  WRITE('Overflow probes (implementation-dependent)...');
+  BIG32 := 2 ^^ 31;      
+  BIG64 := 2 ^^ 63;      
+
+  WRITE('Inputs:'); WRITE(A); WRITE(B); WRITE(C);
+  WRITE('Right-assoc result:'); WRITE(X);
+  WRITE('Left-assoc result:'); WRITE(Y);
+  WRITE('Unary-minus result:'); WRITE(Z);
+  WRITE('2^^31 (may overflow int):'); WRITE(BIG32);
+  WRITE('2^^63 (likely overflow int):'); WRITE(BIG64)
+
+END

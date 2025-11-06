@@ -68,7 +68,8 @@ Token expect(Token want, const char* msg)
 // Helpers
 // -----------------------------------------------------------------------------
 static inline bool accept(Token t) { if (peek() == t) { nextTok(); return true; } return false; }
-static inline void consume_if(Token t) { if (peek() == t) nextTok(); }
+static unique_ptr<Statement> parseStatement();
+static unique_ptr<Statement> parseCompound();
 
 // TODO: implement parsing functions for each grammar in your language
 
@@ -112,11 +113,15 @@ static unique_ptr<Value> parseValue() {
     string lex = peekLex; nextTok();
     return make_unique<Value>(Value::Kind::FloatLit, lex);
   } else if (peek() == IDENT) {
-    string lex = peekLex; nextTok();
+    string lex = peekLex; 
+    if (!symbolTable.count(lex))
+      throw runtime_error("Parse error: use of undeclared identifier " + lex);
+    nextTok();
     return make_unique<Value>(Value::Kind::Ident, lex);
   }
   throw runtime_error("Parse error: expected a value (INTLIT, FLOATLIT, or IDENT)");
 }
+
 
 static unique_ptr<Statement> parseWriteStmt() {
   expect(WRITE, "in write statement");
@@ -145,37 +150,40 @@ static unique_ptr<Statement> parseWriteStmt() {
   } else {
     throw runtime_error("Parse error: expected STRINGLIT or IDENT inside WRITE(...)");
   }
-  consume_if(SEMICOLON);
   return stmt;
 }
 
 static unique_ptr<Statement> parseReadStmt() {
   expect(READ, "in read statement");
-  if (peek() != IDENT) throw runtime_error("Parse error: expected IDENT after READ");
+  expect(OPENPAREN, "expected '(' after READ");
+  if (peek() != IDENT) throw runtime_error("Parse error: expected IDENT inside READ(...)");
   string id = peekLex;
-  if (!symbolTable.count(id)){
+  if (!symbolTable.count(id))
     throw runtime_error("Parse error: READ of undeclared identifier " + id);
-  }
   expect(IDENT, "identifier to READ into");
-  consume_if(SEMICOLON);
+  expect(CLOSEPAREN, "expected ')' after identifier");
   return make_unique<ReadStmt>(id);
 }
+
 
 static unique_ptr<Statement> parseAssignStmtWithLeadingIdent(const string& firstIdent) {
   expect(ASSIGN, "expected ':=' after identifier");
   auto rhs = parseValue();
-  consume_if(SEMICOLON);
   return make_unique<AssignStmt>(firstIdent, std::move(rhs));
 }
 
 static unique_ptr<Statement> parseAssignOrError() {
   if (peek() != IDENT) throw runtime_error("Parse error: expected IDENT to start assignment");
   string id = peekLex;
-  nextTok(); // consume IDENT
+  if (!symbolTable.count(id))
+    throw runtime_error("Parse error: ASSIGN to undeclared identifier " + id);
+  nextTok();
   return parseAssignStmtWithLeadingIdent(id);
 }
 
-static unique_ptr<Statement> parseCompound(); // fwd
+
+
+
 
 static unique_ptr<Statement> parseStatement() {
   switch (peek()) {
@@ -191,13 +199,15 @@ static unique_ptr<Statement> parseStatement() {
 static unique_ptr<Statement> parseCompound() {
   expect(TOK_BEGIN, "expected BEGIN to start a compound statement");
   auto comp = make_unique<CompoundStmt>();
-  // Zero or more statements until END
-  while (true) {
-    Token t = peek();
-    if (t == END) break;
-    // a tiny safety: permit END right away (empty block)
+
+  if (peek() != END) {
     comp->stmts.push_back(parseStatement());
+    while (accept(SEMICOLON)) {
+      if (peek() == END) break;
+      comp->stmts.push_back(parseStatement());
+    }
   }
+
   expect(END, "expected END to close compound statement");
   return comp;
 }

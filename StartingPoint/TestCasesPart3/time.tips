@@ -1,0 +1,37 @@
+PROGRAM TIMEADD;
+VAR
+  H: INTEGER; M: INTEGER; S: INTEGER;
+  OFF: INTEGER; T: INTEGER;
+  NH: INTEGER; NM: INTEGER; NS: INTEGER;
+  THOURS: REAL;
+BEGIN
+  WRITE('Time Offset Calculator');
+  WRITE('Enter start time hours (0-23):');
+  READ(H);
+  WRITE('Enter minutes (0-59):');
+  READ(M);
+  WRITE('Enter seconds (0-59):');
+  READ(S);
+  WRITE('Enter offset seconds to add:');
+  READ(OFF);
+
+  WRITE('Computing new time...');
+  BEGIN
+    T := (H * 3600) + (M * 60) + S + OFF;
+    T := T MOD 86400;
+
+    WRITE('Splitting into H:M:S...');
+    BEGIN
+      NH := T / 3600;
+      NM := (T MOD 3600) / 60;
+      NS := T MOD 60
+    END
+  END;
+
+  THOURS := T / 3600.0;
+
+  WRITE('Start time:'); WRITE('H:'); WRITE(H); WRITE('M:'); WRITE(M); WRITE('S:'); WRITE(S);
+  WRITE('Offset seconds:'); WRITE(OFF);
+  WRITE('New time:'); WRITE('H:'); WRITE(NH); WRITE('M:'); WRITE(NM); WRITE('S:'); WRITE(NS);
+  WRITE('New time in hours (real):'); WRITE(THOURS)
+END

@@ -1,0 +1,42 @@
+PROGRAM TREASURE;
+VAR
+  GOLD: REAL;
+  RATE: REAL;
+  YEARS: INTEGER;
+  PERIODS: INTEGER;
+  MONTHLY: REAL;
+  VAULT: REAL;
+  XMONTHS: INTEGER;
+BEGIN
+  WRITE('Welcome to Tipsys Treasure Vault!');
+  WRITE('Enter your starting gold:');
+  READ(GOLD);
+  WRITE('Enter annual growth rate as a whole number:');
+  READ(RATE);
+  WRITE('Enter years to guard the vault:');
+  READ(YEARS);
+  WRITE('Enter compounding per year (4 or 12):');
+  READ(PERIODS);
+  WRITE('Enter gold added each month:');
+  READ(MONTHLY);
+  WRITE('Enter extra months you plan to save:');
+  READ(XMONTHS);
+
+  WRITE('Calculating the hoard...');
+  RATE := RATE / 100;
+  VAULT := GOLD * (1 + RATE / PERIODS) ^^ (PERIODS * YEARS);
+
+  WRITE('Final touches for the vault...');
+  YEARS := ++YEARS;
+  XMONTHS := --XMONTHS;
+  VAULT := VAULT + MONTHLY * 12 + 5.0;
+
+  WRITE('------------------------------');
+  WRITE('Projected treasure total:');
+  WRITE(VAULT);
+  WRITE('Years guarding the vault:');
+  WRITE(YEARS);
+  WRITE('Extra months remaining:');
+  WRITE(XMONTHS);
+  WRITE('------------------------------')
+END

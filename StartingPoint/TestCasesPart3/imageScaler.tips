@@ -1,0 +1,47 @@
+PROGRAM IMSCALE;
+VAR
+  W: INTEGER; H: INTEGER; PCT: INTEGER;
+  NW: INTEGER; NH: INTEGER;
+  ASPECT: REAL; AREA: REAL; CHECK: INTEGER;
+BEGIN
+  WRITE('Image Scaler');
+  WRITE('Enter width (pixels):');
+  READ(W);
+  WRITE('Enter height (pixels):');
+  READ(H);
+  WRITE('Enter scale percent as whole number (e.g., 150 for 150%):');
+  READ(PCT);
+
+  WRITE('Computing new size...');
+  BEGIN
+    NW := W * PCT / 100;
+    NH := H * PCT / 100;
+
+    WRITE('Computing aspect and area factors...');
+    BEGIN
+      ASPECT := W / (H * 1.0);
+      AREA := (W * H) * (PCT / 100.0) ^^ 2;
+      CHECK := (NW + 1) ^^ 2 - (NW * NW + 2 * NW)
+    END
+  END;
+
+  WRITE('Original:');
+  WRITE('Width:'); WRITE(W);
+  WRITE('Height:'); WRITE(H);
+
+  WRITE('Scale percent:');
+  WRITE(PCT);
+
+  WRITE('New size:');
+  WRITE('Width:'); WRITE(NW);
+  WRITE('Height:'); WRITE(NH);
+
+  WRITE('Aspect ratio (W/H):');
+  WRITE(ASPECT);
+
+  WRITE('Scaled area (pixels, real):');
+  WRITE(AREA);
+
+  WRITE('Checksum (expect 1):');
+  WRITE(CHECK)
+END
