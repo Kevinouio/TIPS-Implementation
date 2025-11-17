@@ -12,6 +12,7 @@
 #include <set>
 #include <map>
 #include <variant>
+#include <cmath>
 #include "lexer.h"
 #include "ast.h"
 #include "debug.h"
@@ -105,21 +106,96 @@ static void parseDeclarations(vector<Decl>& outDecls) {
   }
 }
 
-static unique_ptr<Value> parseValue() {
-  if (peek() == INTLIT) {
-    string lex = peekLex; nextTok();
-    return make_unique<Value>(Value::Kind::IntLit, lex);
-  } else if (peek() == FLOATLIT) {
-    string lex = peekLex; nextTok();
-    return make_unique<Value>(Value::Kind::FloatLit, lex);
-  } else if (peek() == IDENT) {
-    string lex = peekLex; 
-    if (!symbolTable.count(lex))
-      throw runtime_error("Parse error: use of undeclared identifier " + lex);
+// ---------- Expressions (Part 3) ----------
+static unique_ptr<Expr> parsePrimary() {
+  if (peek() == OPENPAREN) {
     nextTok();
-    return make_unique<Value>(Value::Kind::Ident, lex);
+    auto e = parseExpression();
+    expect(CLOSEPAREN, "expected ')' to close expression");
+    return e;
   }
-  throw runtime_error("Parse error: expected a value (INTLIT, FLOATLIT, or IDENT)");
+  if (peek() == INTLIT) {
+
+    int v = stoi(peekLex); nextTok();
+    return unique_ptr<Expr>(static_cast<Expr*>(new IntLiteral(v)));
+  }
+  if (peek() == FLOATLIT) {
+    double v = stod(peekLex); nextTok();
+    return unique_ptr<Expr>(static_cast<Expr*>(new RealLiteral(v)));
+  }
+  if (peek() == IDENT) {
+    string name = peekLex;
+    if (!symbolTable.count(name))
+      throw runtime_error("Parse error: use of undeclared identifier " + name);
+    nextTok();
+    return unique_ptr<Expr>(static_cast<Expr*>(new IdentExpr(name)));
+  }
+  throw runtime_error(string("Parse error: expected primary, got ") + tname(peek()));
+}
+
+static unique_ptr<Expr> parseUnary() {
+  if (peek() == PLUS)  { nextTok(); return make_unique<UnaryExpr>(UnaryExpr::Op::Plus,  parseUnary()); }
+  if (peek() == MINUS) { nextTok(); return make_unique<UnaryExpr>(UnaryExpr::Op::Minus, parseUnary()); }
+  if (peek() == INCREMENT) {
+    nextTok();
+    if (peek() != IDENT) throw runtime_error("Parse error: ++ must be followed by IDENT");
+    string name = peekLex;
+    if (!symbolTable.count(name)) throw runtime_error("Parse error: ++ of undeclared identifier " + name);
+    nextTok();
+    return unique_ptr<Expr>(static_cast<Expr*>(new PreIncDecExpr(true, name)));
+  }
+  if (peek() == DECREMENT) {
+    nextTok();
+    if (peek() != IDENT) throw runtime_error("Parse error: -- must be followed by IDENT");
+    string name = peekLex;
+    if (!symbolTable.count(name)) throw runtime_error("Parse error: -- of undeclared identifier " + name);
+    nextTok();
+    return unique_ptr<Expr>(static_cast<Expr*>(new PreIncDecExpr(false, name)));
+  }
+  return parsePrimary();
+}
+
+// Right-associative power: unary (^^ power)?
+static unique_ptr<Expr> parsePower() {
+  auto lhs = parseUnary();
+  if (peek() == CUSTOM_OPER) {
+    nextTok();
+    auto rhs = parsePower(); // recurse for right-assoc
+    return make_unique<BinaryExpr>(BinaryExpr::Op::Pow, std::move(lhs), std::move(rhs));
+  }
+  return lhs;
+}
+
+static unique_ptr<Expr> parseTerm() {
+  auto e = parsePower();
+  while (true) {
+    if (peek() == MULTIPLY) {
+      nextTok(); auto r = parsePower();
+      e = make_unique<BinaryExpr>(BinaryExpr::Op::Mul, std::move(e), std::move(r));
+    } else if (peek() == DIVIDE) {
+      nextTok(); auto r = parsePower();
+      e = make_unique<BinaryExpr>(BinaryExpr::Op::Div, std::move(e), std::move(r));
+    } else if (peek() == MOD) {
+      nextTok(); auto r = parsePower();
+      e = make_unique<BinaryExpr>(BinaryExpr::Op::Mod, std::move(e), std::move(r));
+    } else break;
+  }
+  return e;
+}
+
+static unique_ptr<Expr> parseSimple() {
+  auto e = parseTerm();
+  while (true) {
+    if (peek() == PLUS)  { nextTok(); auto r = parseTerm(); e = make_unique<BinaryExpr>(BinaryExpr::Op::Add, std::move(e), std::move(r)); }
+    else if (peek() == MINUS) { nextTok(); auto r = parseTerm(); e = make_unique<BinaryExpr>(BinaryExpr::Op::Sub, std::move(e), std::move(r)); }
+    else break;
+  }
+  return e;
+}
+
+static unique_ptr<Expr> parseExpression() {
+  // For Part 3, arithmetic only
+  return parseSimple();
 }
 
 
@@ -168,7 +244,7 @@ static unique_ptr<Statement> parseReadStmt() {
 
 static unique_ptr<Statement> parseAssignStmtWithLeadingIdent(const string& firstIdent) {
   expect(ASSIGN, "expected ':=' after identifier");
-  auto rhs = parseValue();
+  auto rhs = parseExpression();
   return make_unique<AssignStmt>(firstIdent, std::move(rhs));
 }
 
@@ -240,4 +316,3 @@ unique_ptr<Program> parseProgram() {
   expect(TOK_EOF, "at end of file (no trailing tokens after program)");
   return p;
 }
-

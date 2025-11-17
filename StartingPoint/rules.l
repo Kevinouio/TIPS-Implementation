@@ -50,7 +50,7 @@ REAL                                  { return REAL; }
 "-"                                     { return MINUS; }
 "^^"                                    { return CUSTOM_OPER; }
 "/"                                     { return DIVIDE; }
-"*"                                     { return PLUS; }
+"*"                                     { return MULTIPLY; }
 MOD                                     { return MOD; }
 "++"                                    { return INCREMENT; }
 "--"                                    { return DECREMENT; }

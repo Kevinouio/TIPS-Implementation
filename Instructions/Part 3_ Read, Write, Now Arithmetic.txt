@@ -1,0 +1,111 @@
+Read, Write, Now
+Arithmetic
+Part 3 – Making Math Happen
+
+MSU Fall 2025 CSE 4714/6714
+
+From Numbers to Expressions
+The Grammar Behind Arithmetic in TIPS
+
+value → the full math expression
+
+term → multiplication, division, and modulo level
+factor → handles unary operators (++, --, -)
+primary → the raw piece: literal, variable, or parentheses
+
+Implementing these grammars exactly as written
+automatically enforces proper precedence.
+
+Lexer Updates
+Teach TIPS to recognize math and custom operators
+
+Add each of these patterns to rules.l.
+Define the new tokens in lexer.h.
+Add readable names to tokName() for the
+-t flag.
+Verify that comments, strings, and identifiers
+still scan correctly.
+
+AST Expansion
+This is how I did it…NOT how you MUST do it
+UnaryOp
+●
+●
+●
+
+++ / -- only apply to identifiers.
+Update the symbol table and return the new value.
+Unary - just negates the evaluated result.
+
+BinaryOp
+●
+●
+
+Implements + - * / MOD ^^
+Type behavior:
+○
+/ → always REAL
+○
+Any REAL operand → REAL result
+○
+MOD → only valid on two INTEGER operands
+○
+^^ → uses pow(double,double)
+
+AssignStmt
+●
+●
+●
+
+Evaluates rhs->interpret(out)
+Stores result into existing int or double slot
+Keeps same narrowing / promotion logic from Part 2
+
+What’s the Biggest Diﬀerence?
+
+Interprets for the remaining grammars
+actually have values now and are no
+longer void type functions!
+
+AST Helpers I Made
+I found these helpful…
+
+Parser Expansion
+AGAIN - This is only how I chose to do it
+Grammar = Structure
+Each parseX() mirrors its grammar rule.
+No precedence table needed — the grammar handles it.
+Return Type
+All return unique_ptr<ValueNode> to build the AST.
+Operator Roles
+●
+factor() → unary (-, ++, --)
+●
+term() → *, /, MOD, ^^
+●
+value() → +, Integration
+Assignments and future logic reuse parseValue()
+anywhere an expression is allowed.
+
+Run Your Test Cases
+Download and Test Your Code…
+
+❌
+
+➕
+
+➖
+
+All SEVEN Test
+Should Interpret As
+
+➗
+
+Cases
+Expected
+
+Any Questions?
+
+We’re ALMOST Done!!!
+
+

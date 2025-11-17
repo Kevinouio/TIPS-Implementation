@@ -107,7 +107,7 @@ inline const char* tokName(Token t) {
     case NOTEQUALTO:    return "NOTEQUALTO";
     case MOD:           return "MOD";
     case INCREMENT:     return "INCREMENT";
-    case DECREMENT:     return "INCREMENT";
+    case DECREMENT:     return "DECREMENT";
     case TOK_NOT:       return "NOT";
     case TOK_OR:        return "OR";
     case TOK_AND:       return "AND";

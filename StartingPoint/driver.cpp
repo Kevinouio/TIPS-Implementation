@@ -46,7 +46,7 @@ using namespace std;
 // gSkinStorage must stay alive so gSkinC remains a valid C-style string.
 // -----------------------------------------------------------------------------
 extern "C" const char* gSkinC;
-extern map<string, variant<int,double>> symbolTable;
+extern map<string, ValueVariant> symbolTable;
 string gSkinStorage = "default";
 const char* gSkinC = gSkinStorage.c_str();
 
@@ -176,10 +176,10 @@ int main(int argc, char** argv)
         if (FLAG_SYMBOLS) {
             banner("SYMBOL TABLE", C_CYAN);
             for (const auto& [name, val] : symbolTable) {
-                if (holds_alternative<int>(val))
-                    cout << name << " : INTEGER = " << get<int>(val) << "\n";
-                else
-                    cout << name << " : REAL = " << get<double>(val) << "\n";
+                const char* type = holds_alternative<IntType>(val) ? "INTEGER" : "REAL";
+                cout << name << " : " << type << " = ";
+                printValue(cout, val);
+                cout << "\n";
             }
         }
 

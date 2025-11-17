@@ -17,13 +17,31 @@
 #include <variant>
 #include <stdexcept>
 #include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <cstdint>
 using namespace std;
 
+using IntType = int32_t;
+using RealType = double;
+using ValueVariant = variant<IntType, RealType>;
 
 // -----------------------------------------------------------------------------
 // Global Variable
 // -----------------------------------------------------------------------------
-extern map<string, variant<int,double>> symbolTable;
+extern map<string, ValueVariant> symbolTable;
+
+inline void printValue(ostream& out, const ValueVariant& val) {
+  if (holds_alternative<IntType>(val)) {
+    out << get<IntType>(val);
+  } else {
+    auto flags = out.flags();
+    auto precision = out.precision();
+    out << fixed << setprecision(4) << get<RealType>(val);
+    out.flags(flags);
+    out.precision(precision);
+  }
+}
 
 // -----------------------------------------------------------------------------
 // Pretty printer
@@ -80,11 +98,12 @@ struct ReadStmt : Statement {
     auto it = symbolTable.find(id);
     if (it == symbolTable.end())
       throw runtime_error("Runtime error: READ of undeclared identifier " + id);
-    if (holds_alternative<int>(it->second)) {
-      int v; if (!(cin >> v)) throw runtime_error("Input error: expected INTEGER for " + id);
+    if (holds_alternative<IntType>(it->second)) {
+      IntType v; if (!(cin >> v)) throw runtime_error("Input error: expected INTEGER for " + id);
       it->second = v;
-    } else {
-      double v; if (!(cin >> v)) throw runtime_error("Input error: expected REAL for " + id);
+    } 
+    else {
+      RealType v; if (!(cin >> v)) throw runtime_error("Input error: expected REAL for " + id);
       it->second = v;
     }
   }
@@ -110,15 +129,209 @@ struct WriteStmt : Statement {
     auto it = symbolTable.find(text_or_id);
     if (it == symbolTable.end())
       throw runtime_error("Runtime error: WRITE of undeclared identifier " + text_or_id);
-    visit([&](auto&& v){ out << v << '\n'; }, it->second);
+    printValue(out, it->second);
+    out << '\n';
+  }
+};
+
+// -----------------------------------------------------------------------------
+// Part 3: Expressions
+// -----------------------------------------------------------------------------
+struct Expr {
+  virtual ~Expr() = default;
+  virtual void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const = 0;
+  virtual ValueVariant eval() const = 0;
+};
+
+struct IntLiteral : Expr {
+  IntType value;
+  explicit IntLiteral(IntType v) : value(v) {}
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "INT " + to_string(value));
+  }
+  ValueVariant eval() const override { return value; }
+};
+
+struct RealLiteral : Expr {
+  RealType value;
+  explicit RealLiteral(RealType v) : value(v) {}
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "REAL " + to_string(value));
+  }
+  ValueVariant eval() const override { return value; }
+};
+
+struct IdentExpr : Expr {
+  string name;
+  explicit IdentExpr(string n) : name(std::move(n)) {}
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "IDENT " + name);
+  }
+  ValueVariant eval() const override {
+    auto it = symbolTable.find(name);
+    if (it == symbolTable.end()) throw runtime_error("Runtime error: undeclared identifier " + name);
+    return it->second;
+  }
+};
+
+struct UnaryExpr : Expr {
+  enum class Op { Plus, Minus };
+  Op op; unique_ptr<Expr> child;
+  UnaryExpr(Op o, unique_ptr<Expr> e) : op(o), child(std::move(e)) {}
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    string o = (op == Op::Plus) ? "+" : "-";
+    ast_line(os, prefix, isLast, string("Unary(") + o + ")");
+    child->print_tree(os, kid_prefix(prefix, isLast), true);
+  }
+  ValueVariant eval() const override {
+    auto v = child->eval();
+    if (holds_alternative<IntType>(v)) {
+      IntType i = get<IntType>(v);
+      return (op == Op::Plus) ? i : -i;
+    } 
+    else {
+      RealType d = get<RealType>(v);
+      return (op == Op::Plus) ? d : -d;
+    }
+  }
+};
+
+struct PreIncDecExpr : Expr {
+  bool isInc; string name;
+  PreIncDecExpr(bool inc, string n) : isInc(inc), name(std::move(n)) {}
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, string(isInc?"PreInc":"PreDec") + "(" + name + ")");
+  }
+  ValueVariant eval() const override {
+    auto it = symbolTable.find(name);
+    if (it == symbolTable.end()) throw runtime_error("Runtime error: undeclared identifier " + name);
+    if (holds_alternative<IntType>(it->second)) {
+      IntType v = get<IntType>(it->second);
+      v += isInc ? IntType{1} : IntType{-1};
+      it->second = v;
+      return v;
+    } 
+    else {
+      RealType v = get<RealType>(it->second);
+      v += isInc ? 1.0 : -1.0;
+      it->second = v;
+      return v;
+    }
+  }
+};
+
+struct BinaryExpr : Expr {
+  enum class Op { Add, Sub, Mul, Div, Mod, Pow };
+  Op op; unique_ptr<Expr> lhs, rhs;
+  BinaryExpr(Op o, unique_ptr<Expr> L, unique_ptr<Expr> R)
+    : op(o), lhs(std::move(L)), rhs(std::move(R)) {}
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    string name;
+    switch (op) {
+      case Op::Add: name = "+"; break;
+      case Op::Sub: name = "-"; break;
+      case Op::Mul: name = "*"; break;
+      case Op::Div: name = "/"; break;
+      case Op::Mod: name = "MOD"; break;
+      case Op::Pow: name = "^^"; break;
+    }
+    ast_line(os, prefix, isLast, string("Bin(") + name + ")");
+    auto kp = kid_prefix(prefix, isLast);
+    lhs->print_tree(os, kp, false);
+    rhs->print_tree(os, kp, true);
+  }
+  static inline bool anyReal(const ValueVariant& a, const ValueVariant& b){
+    return holds_alternative<RealType>(a) || holds_alternative<RealType>(b);
+  }
+  static inline IntType mulWrap(IntType a, IntType b) {
+    int64_t prod = static_cast<int64_t>(a) * static_cast<int64_t>(b);
+    return static_cast<IntType>(prod);
+  }
+  static IntType powInt(IntType base, IntType exp) {
+    if (exp == 0) return IntType{1};
+    IntType result = 1;
+    IntType factor = base;
+    uint32_t e = static_cast<uint32_t>(exp);
+    while (e > 0) {
+      if (e & 1u) {
+        result = mulWrap(result, factor);
+      }
+      e >>= 1u;
+      if (e) {
+        factor = mulWrap(factor, factor);
+      }
+    }
+    return result;
+  }
+  ValueVariant eval() const override {
+    auto A = lhs->eval();
+    auto B = rhs->eval();
+    if (op == Op::Mod) {
+      if (!holds_alternative<IntType>(A) || !holds_alternative<IntType>(B))
+        throw runtime_error("Runtime error: MOD requires INTEGER operands");
+      IntType ai = get<IntType>(A);
+      IntType bi = get<IntType>(B);
+      if (bi == 0) throw runtime_error("Runtime error: division by zero in MOD");
+      IntType r = ai % bi;
+      if (r < 0) {
+        IntType divisor = (bi > 0) ? bi : -bi;
+        r += divisor;
+      }
+      return r;
+    }
+    if (op == Op::Pow) {
+      bool lhsReal = holds_alternative<RealType>(A);
+      bool rhsReal = holds_alternative<RealType>(B);
+      if (!lhsReal && !rhsReal) {
+        IntType base = get<IntType>(A);
+        IntType exponent = get<IntType>(B);
+        if (exponent < 0) {
+          RealType da = static_cast<RealType>(base);
+          RealType db = static_cast<RealType>(exponent);
+          return pow(da, db);
+        }
+        return powInt(base, exponent);
+      }
+      RealType da = lhsReal ? get<RealType>(A) : static_cast<RealType>(get<IntType>(A));
+      RealType db = rhsReal ? get<RealType>(B) : static_cast<RealType>(get<IntType>(B));
+      RealType pd = pow(da, db);
+      return pd;
+    }
+    if (op == Op::Div) {
+      RealType a = holds_alternative<IntType>(A) ? static_cast<RealType>(get<IntType>(A)) : get<RealType>(A);
+      RealType b = holds_alternative<IntType>(B) ? static_cast<RealType>(get<IntType>(B)) : get<RealType>(B);
+      if (b == 0.0) throw runtime_error("Runtime error: division by zero");
+      return a / b;  // division always yields REAL
+    }
+    // + - * /
+    if (anyReal(A,B)) {
+      RealType a = holds_alternative<IntType>(A) ? static_cast<RealType>(get<IntType>(A)) : get<RealType>(A);
+      RealType b = holds_alternative<IntType>(B) ? static_cast<RealType>(get<IntType>(B)) : get<RealType>(B);
+      switch (op) {
+        case Op::Add: return a + b;
+        case Op::Sub: return a - b;
+        case Op::Mul: return a * b;
+        default: break;
+      }
+    } else {
+      IntType a = get<IntType>(A);
+      IntType b = get<IntType>(B);
+      switch (op) {
+        case Op::Add: return a + b;
+        case Op::Sub: return a - b;
+        case Op::Mul: return a * b;
+        default: break;
+      }
+    }
+    throw runtime_error("Runtime error: unknown binary op");
   }
 };
 
 struct AssignStmt : Statement {
   string id;
-  unique_ptr<Value> rhs;
+  unique_ptr<Expr> rhs;
 
-  AssignStmt(string id_, unique_ptr<Value> rhs_)
+  AssignStmt(string id_, unique_ptr<Expr> rhs_)
     : id(std::move(id_)), rhs(std::move(rhs_)) {}
 
   void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
@@ -131,23 +344,20 @@ struct AssignStmt : Statement {
     if (itL == symbolTable.end())
       throw runtime_error("Runtime error: ASSIGN to undeclared identifier " + id);
 
-    auto fetchIdent = [](const string& name) -> double {
-      auto it = symbolTable.find(name);
-      if (it == symbolTable.end())
-        throw runtime_error("Runtime error: undeclared identifier on RHS: " + name);
-      return holds_alternative<int>(it->second) ? static_cast<double>(get<int>(it->second))
-                                                : get<double>(it->second);
-    };
-
-    double r = 0.0;
-    switch (rhs->kind) {
-      case Value::Kind::IntLit:   r = static_cast<double>(stoi(rhs->lexeme)); break;
-      case Value::Kind::FloatLit: r = stod(rhs->lexeme); break;
-      case Value::Kind::Ident:    r = fetchIdent(rhs->lexeme); break;
+    ValueVariant rv = rhs->eval();
+    if (holds_alternative<IntType>(itL->second)) {
+      // store as integer (truncate if real)
+      IntType v = holds_alternative<IntType>(rv) ? get<IntType>(rv)
+                   : static_cast<IntType>(get<RealType>(rv));
+      itL->second = v;
+    } 
+    else {
+      // store as real (widen int)
+      RealType v = holds_alternative<IntType>(rv)
+                     ? static_cast<RealType>(get<IntType>(rv))
+                     : get<RealType>(rv);
+      itL->second = v;
     }
-
-    if (holds_alternative<int>(itL->second)) itL->second = static_cast<int>(r); // truncate
-    else                                     itL->second = r;                   // widen or keep real
   }
 };
 
@@ -251,5 +461,3 @@ inline ostream& operator<<(ostream& os, unique_ptr<Program>& p) {
     if (p) p->print_tree(os);
     return os;
 }
-
-
