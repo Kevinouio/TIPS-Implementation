@@ -21,7 +21,7 @@ using namespace std;
 // -----------------------------------------------------------------------------
 // Global Variable
 // -----------------------------------------------------------------------------
-map<string, variant<int,double>> symbolTable; 
+map<string, ValueVariant> symbolTable; 
 
 // -----------------------------------------------------------------------------
 // One-token lookahead
@@ -71,6 +71,14 @@ Token expect(Token want, const char* msg)
 static inline bool accept(Token t) { if (peek() == t) { nextTok(); return true; } return false; }
 static unique_ptr<Statement> parseStatement();
 static unique_ptr<Statement> parseCompound();
+// Part 3 expression forward decls
+struct Expr; // from ast.h
+static unique_ptr<Expr> parseExpression();
+static unique_ptr<Expr> parseSimple();
+static unique_ptr<Expr> parseTerm();
+static unique_ptr<Expr> parsePower();
+static unique_ptr<Expr> parseUnary();
+static unique_ptr<Expr> parsePrimary();
 
 // TODO: implement parsing functions for each grammar in your language
 
@@ -95,10 +103,10 @@ static void parseDeclarations(vector<Decl>& outDecls) {
     }
 
     if (d.type == Decl::Type::Int)  { 
-      symbolTable[d.name] = 0;
+      symbolTable[d.name] = IntType{0};
     }
     else {
-      symbolTable[d.name] = 0.0;
+      symbolTable[d.name] = RealType{0.0};
     }
 
     expect(SEMICOLON, "';' after declaration");
@@ -115,8 +123,7 @@ static unique_ptr<Expr> parsePrimary() {
     return e;
   }
   if (peek() == INTLIT) {
-
-    int v = stoi(peekLex); nextTok();
+    IntType v = static_cast<IntType>(stoi(peekLex)); nextTok();
     return unique_ptr<Expr>(static_cast<Expr*>(new IntLiteral(v)));
   }
   if (peek() == FLOATLIT) {
