@@ -1,0 +1,73 @@
+PROGRAM SLEEPCHK;
+VAR
+  SLEEP   : INTEGER;
+  CODING  : INTEGER;
+  MOOD    : INTEGER;
+  COUNT   : INTEGER;
+BEGIN
+  ## Input prompts
+  WRITE('Enter hours you slept last night:');
+  READ(SLEEP);
+
+  WRITE('Enter hours you coded today:');
+  READ(CODING);
+
+  WRITE('=== Truth & Logic Health Check ===');
+
+  ## Relational + AND
+  IF (SLEEP > 8) AND (CODING < 2) THEN
+    WRITE('Well-rested and suspiciously relaxed.');
+
+  IF (SLEEP < 4) AND (CODING > 6) THEN
+    WRITE('Powered by caffeine and poor choices.');
+
+  ## Equality / inequality
+  IF SLEEP = CODING THEN
+    WRITE('Sleep and code hours are exactly equal. That feels cursed.');
+
+  IF SLEEP <> CODING THEN
+    WRITE('Sleep/code imbalance detected.');
+
+  ## Big-number OR check
+  IF (SLEEP > 10) OR (CODING > 10) THEN
+    WRITE('At least one of those numbers is wildly unrealistic.');
+
+  ## OR + ELSE + SENIORITIS
+  IF (SLEEP < 4) OR (CODING > 8) THEN
+    BEGIN
+      WRITE('Status: ZOMBIE MODE.');
+      SENIORITIS
+    END
+  ELSE
+    WRITE('Status: Mostly human (for now).');
+
+  ## Tiny "mood" score using NOT and AND
+  MOOD := 0;
+
+  ## NOT (SLEEP < 6)  → slept at least 6 hours
+  IF NOT (SLEEP < 6) THEN
+    MOOD := MOOD + 1;
+
+  ## CODING between 2 and 6 hours (moderate work)
+  IF (CODING > 1) AND (CODING < 7) THEN
+    MOOD := MOOD + 1;
+
+  ## Simple WHILE loop that depends on MOOD
+  COUNT := 0;
+  WHILE COUNT < MOOD
+    BEGIN
+      WRITE('Logic check: you might actually be okay.');
+      COUNT := COUNT + 1
+    END;
+
+  ## Final verdict based on MOOD = 0, 1, or 2
+  IF MOOD = 2 THEN
+    WRITE('Grade vibe: stable and strangely hopeful.')
+  ELSE
+    IF MOOD = 1 THEN
+      WRITE('Grade vibe: could go either way.')
+    ELSE
+      WRITE('Grade vibe: wobbling like an uninitialized pointer.');
+
+  WRITE('End of diagnostic.')
+END

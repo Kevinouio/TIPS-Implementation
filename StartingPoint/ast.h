@@ -26,6 +26,30 @@ using IntType = int32_t;
 using RealType = double;
 using ValueVariant = variant<IntType, RealType>;
 
+// Logical comparisons tolerate floating point noise via EPSILON.
+constexpr RealType EPSILON = 1e-5;
+
+inline RealType asReal(const ValueVariant& v) {
+  return holds_alternative<RealType>(v)
+           ? get<RealType>(v)
+           : static_cast<RealType>(get<IntType>(v));
+}
+
+inline bool approxEqual(RealType a, RealType b) {
+  return fabs(a - b) < EPSILON;
+}
+
+inline ValueVariant boolToValue(bool b) {
+  return static_cast<IntType>(b ? 1 : 0);
+}
+
+inline bool isTrueValue(const ValueVariant& v) {
+  if (holds_alternative<IntType>(v)) {
+    return get<IntType>(v) != 0;
+  }
+  return fabs(get<RealType>(v)) >= EPSILON;
+}
+
 // -----------------------------------------------------------------------------
 // Global Variable
 // -----------------------------------------------------------------------------
@@ -196,6 +220,18 @@ struct UnaryExpr : Expr {
   }
 };
 
+struct NotExpr : Expr {
+  unique_ptr<Expr> child;
+  explicit NotExpr(unique_ptr<Expr> e) : child(std::move(e)) {}
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "NOT");
+    child->print_tree(os, kid_prefix(prefix, isLast), true);
+  }
+  ValueVariant eval() const override {
+    return boolToValue(!isTrueValue(child->eval()));
+  }
+};
+
 struct PreIncDecExpr : Expr {
   bool isInc; string name;
   PreIncDecExpr(bool inc, string n) : isInc(inc), name(std::move(n)) {}
@@ -221,7 +257,7 @@ struct PreIncDecExpr : Expr {
 };
 
 struct BinaryExpr : Expr {
-  enum class Op { Add, Sub, Mul, Div, Mod, Pow };
+  enum class Op { Add, Sub, Mul, Div, Mod, Pow, Lt, Gt, Eq, Ne, And, Or };
   Op op; unique_ptr<Expr> lhs, rhs;
   BinaryExpr(Op o, unique_ptr<Expr> L, unique_ptr<Expr> R)
     : op(o), lhs(std::move(L)), rhs(std::move(R)) {}
@@ -234,6 +270,12 @@ struct BinaryExpr : Expr {
       case Op::Div: name = "/"; break;
       case Op::Mod: name = "MOD"; break;
       case Op::Pow: name = "^^"; break;
+      case Op::Lt: name = "<"; break;
+      case Op::Gt: name = ">"; break;
+      case Op::Eq: name = "="; break;
+      case Op::Ne: name = "<>"; break;
+      case Op::And: name = "AND"; break;
+      case Op::Or: name = "OR"; break;
     }
     ast_line(os, prefix, isLast, string("Bin(") + name + ")");
     auto kp = kid_prefix(prefix, isLast);
@@ -264,6 +306,18 @@ struct BinaryExpr : Expr {
     return result;
   }
   ValueVariant eval() const override {
+    if (op == Op::And) {
+      auto L = lhs->eval();
+      if (!isTrueValue(L)) return boolToValue(false);
+      auto R = rhs->eval();
+      return boolToValue(isTrueValue(R));
+    }
+    if (op == Op::Or) {
+      auto L = lhs->eval();
+      if (isTrueValue(L)) return boolToValue(true);
+      auto R = rhs->eval();
+      return boolToValue(isTrueValue(R));
+    }
     auto A = lhs->eval();
     auto B = rhs->eval();
     if (op == Op::Mod) {
@@ -278,6 +332,30 @@ struct BinaryExpr : Expr {
         r += divisor;
       }
       return r;
+    }
+    if (op == Op::Lt) {
+      return boolToValue(asReal(A) < asReal(B));
+    }
+    if (op == Op::Gt) {
+      return boolToValue(asReal(A) > asReal(B));
+    }
+    if (op == Op::Eq) {
+      bool eq;
+      if (holds_alternative<IntType>(A) && holds_alternative<IntType>(B)) {
+        eq = (get<IntType>(A) == get<IntType>(B));
+      } else {
+        eq = approxEqual(asReal(A), asReal(B));
+      }
+      return boolToValue(eq);
+    }
+    if (op == Op::Ne) {
+      bool eq;
+      if (holds_alternative<IntType>(A) && holds_alternative<IntType>(B)) {
+        eq = (get<IntType>(A) == get<IntType>(B));
+      } else {
+        eq = approxEqual(asReal(A), asReal(B));
+      }
+      return boolToValue(!eq);
     }
     if (op == Op::Pow) {
       bool lhsReal = holds_alternative<RealType>(A);
@@ -358,6 +436,76 @@ struct AssignStmt : Statement {
                      : get<RealType>(rv);
       itL->second = v;
     }
+  }
+};
+
+struct IfStmt : Statement {
+  unique_ptr<Expr> condition;
+  unique_ptr<Statement> thenBranch;
+  unique_ptr<Statement> elseBranch;
+
+  IfStmt(unique_ptr<Expr> cond,
+         unique_ptr<Statement> thenStmt,
+         unique_ptr<Statement> elseStmt)
+    : condition(std::move(cond)),
+      thenBranch(std::move(thenStmt)),
+      elseBranch(std::move(elseStmt)) {}
+
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "IF");
+    string kid = kid_prefix(prefix, isLast);
+
+    ast_line(os, kid, false, "COND");
+    condition->print_tree(os, kid_prefix(kid, false), true);
+
+    bool hasElse = static_cast<bool>(elseBranch);
+    ast_line(os, kid, hasElse ? false : true, "THEN");
+    thenBranch->print_tree(os, kid_prefix(kid, hasElse ? false : true), true);
+
+    if (hasElse) {
+      ast_line(os, kid, true, "ELSE");
+      elseBranch->print_tree(os, kid_prefix(kid, true), true);
+    }
+  }
+
+  void interpret(ostream& out) const override {
+    if (isTrueValue(condition->eval())) {
+      thenBranch->interpret(out);
+    } else if (elseBranch) {
+      elseBranch->interpret(out);
+    }
+  }
+};
+
+struct WhileStmt : Statement {
+  unique_ptr<Expr> condition;
+  unique_ptr<Statement> body;
+  WhileStmt(unique_ptr<Expr> cond, unique_ptr<Statement> b)
+    : condition(std::move(cond)), body(std::move(b)) {}
+
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "WHILE");
+    string kid = kid_prefix(prefix, isLast);
+    ast_line(os, kid, false, "COND");
+    condition->print_tree(os, kid_prefix(kid, false), true);
+    ast_line(os, kid, true, "BODY");
+    body->print_tree(os, kid_prefix(kid, true), true);
+  }
+
+  void interpret(ostream& out) const override {
+    while (isTrueValue(condition->eval())) {
+      body->interpret(out);
+    }
+  }
+};
+
+struct SenioritisStmt : Statement {
+  void print_tree(ostream& os, const string& prefix = "", bool isLast = true) const override {
+    ast_line(os, prefix, isLast, "SENIORITIS");
+  }
+
+  void interpret(ostream& out) const override {
+    out << "SENIORITIS activated: time for a victory nap.\n";
   }
 };
 

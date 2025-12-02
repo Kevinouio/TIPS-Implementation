@@ -71,9 +71,16 @@ Token expect(Token want, const char* msg)
 static inline bool accept(Token t) { if (peek() == t) { nextTok(); return true; } return false; }
 static unique_ptr<Statement> parseStatement();
 static unique_ptr<Statement> parseCompound();
+static unique_ptr<Statement> parseIfStmt();
+static unique_ptr<Statement> parseWhileStmt();
+static unique_ptr<Statement> parseSenioritisStmt();
 // Part 3 expression forward decls
 struct Expr; // from ast.h
 static unique_ptr<Expr> parseExpression();
+static unique_ptr<Expr> parseOrExpr();
+static unique_ptr<Expr> parseAndExpr();
+static unique_ptr<Expr> parseNotExpr();
+static unique_ptr<Expr> parseRelational();
 static unique_ptr<Expr> parseSimple();
 static unique_ptr<Expr> parseTerm();
 static unique_ptr<Expr> parsePower();
@@ -201,8 +208,52 @@ static unique_ptr<Expr> parseSimple() {
 }
 
 static unique_ptr<Expr> parseExpression() {
-  // For Part 3, arithmetic only
-  return parseSimple();
+  return parseOrExpr();
+}
+
+static unique_ptr<Expr> parseRelational() {
+  auto lhs = parseSimple();
+  BinaryExpr::Op op;
+  bool hasRel = true;
+  switch (peek()) {
+    case LESSTHAN:    op = BinaryExpr::Op::Lt; break;
+    case GREATERTHAN: op = BinaryExpr::Op::Gt; break;
+    case EQUALTO:     op = BinaryExpr::Op::Eq; break;
+    case NOTEQUALTO:  op = BinaryExpr::Op::Ne; break;
+    default: hasRel = false; break;
+  }
+  if (!hasRel) return lhs;
+  nextTok();
+  auto rhs = parseSimple();
+  return make_unique<BinaryExpr>(op, std::move(lhs), std::move(rhs));
+}
+
+static unique_ptr<Expr> parseNotExpr() {
+  if (peek() == TOK_NOT) {
+    nextTok();
+    return make_unique<NotExpr>(parseNotExpr());
+  }
+  return parseRelational();
+}
+
+static unique_ptr<Expr> parseAndExpr() {
+  auto expr = parseNotExpr();
+  while (peek() == TOK_AND) {
+    nextTok();
+    auto rhs = parseNotExpr();
+    expr = make_unique<BinaryExpr>(BinaryExpr::Op::And, std::move(expr), std::move(rhs));
+  }
+  return expr;
+}
+
+static unique_ptr<Expr> parseOrExpr() {
+  auto expr = parseAndExpr();
+  while (peek() == TOK_OR) {
+    nextTok();
+    auto rhs = parseAndExpr();
+    expr = make_unique<BinaryExpr>(BinaryExpr::Op::Or, std::move(expr), std::move(rhs));
+  }
+  return expr;
 }
 
 
@@ -264,6 +315,30 @@ static unique_ptr<Statement> parseAssignOrError() {
   return parseAssignStmtWithLeadingIdent(id);
 }
 
+static unique_ptr<Statement> parseSenioritisStmt() {
+  expect(SENIORITIS, "SENIORITIS statement");
+  return make_unique<SenioritisStmt>();
+}
+
+static unique_ptr<Statement> parseWhileStmt() {
+  expect(WHILE, "WHILE statement");
+  auto cond = parseExpression();
+  auto body = parseStatement();
+  return make_unique<WhileStmt>(std::move(cond), std::move(body));
+}
+
+static unique_ptr<Statement> parseIfStmt() {
+  expect(IF, "IF statement");
+  auto cond = parseExpression();
+  expect(THEN, "THEN after IF condition");
+  auto thenBranch = parseStatement();
+  unique_ptr<Statement> elseBranch;
+  if (accept(ELSE)) {
+    elseBranch = parseStatement();
+  }
+  return make_unique<IfStmt>(std::move(cond), std::move(thenBranch), std::move(elseBranch));
+}
+
 
 
 
@@ -273,6 +348,9 @@ static unique_ptr<Statement> parseStatement() {
     case READ:       return parseReadStmt();
     case WRITE:      return parseWriteStmt();
     case TOK_BEGIN:  return parseCompound();
+    case IF:         return parseIfStmt();
+    case WHILE:      return parseWhileStmt();
+    case SENIORITIS: return parseSenioritisStmt();
     case IDENT:      return parseAssignOrError();
     default:
       throw runtime_error(string("Parse error: unexpected token in statement: ") + tname(peek()));

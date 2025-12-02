@@ -1,0 +1,70 @@
+PROGRAM NETROT;
+VAR
+  HOURS   : INTEGER;
+  DAYS    : INTEGER;
+  ROT     : INTEGER;
+  DAYCNT  : INTEGER;
+BEGIN
+  ## Input prompts
+  WRITE('How many hours did you spend online today (not for work)?');
+  READ(HOURS);
+
+  WRITE('How many days in a row have you done that?');
+  READ(DAYS);
+
+  WRITE('=== Internet Brain Rot Simulator ===');
+
+  ROT := 0;
+  DAYCNT := 1;
+
+  ## WHILE loop simulates each day of doomscrolling
+  WHILE (DAYS > 0)
+    BEGIN
+      WRITE('Day of doomscrolling:');
+      WRITE(DAYCNT);
+
+      ## Each day adds some brain rot proportional to hours
+      ROT := ROT + (HOURS / 2);
+
+      ## Logical examples
+      IF (HOURS > 6) AND (DAYS > 3) THEN
+        WRITE('You have lost all sense of time.');
+
+      IF (HOURS < 2) OR (DAYS < 2) THEN
+        WRITE('Still somewhat online, but your brain can be saved.');
+
+      IF (HOURS = 0) THEN
+        WRITE('You have escaped... for now.');
+
+      ## Every 5th day, double damage (use a logical comparison)
+      IF (DAYCNT MOD 5) = 0 THEN
+        BEGIN
+          WRITE('Doomscroll milestone reached!');
+          ROT := ROT + 5
+        END;
+
+      ## A day passes
+      DAYCNT := DAYCNT + 1;
+      DAYS := DAYS - 1
+    END;
+
+  WRITE('=== Final Brain Rot Level ===');
+  WRITE(ROT);
+
+  ## Interpret final result using relational and NOT logic
+  IF (ROT > 25) THEN
+    BEGIN
+      WRITE('Severe brain rot detected. You now speak in memes.');
+      SENIORITIS
+    END
+  ELSE
+    IF (ROT > 10) THEN
+      WRITE('Moderate brain rot. Please step away from the screen.')
+    ELSE
+      WRITE('Minimal brain rot. You still recognize real sunlight.');
+
+  IF NOT (ROT < 5) THEN
+    WRITE('Pro tip: go outside before your phone becomes your personality.');
+
+  WRITE('End of simulation.')
+END

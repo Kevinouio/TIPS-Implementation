@@ -1,0 +1,249 @@
+PROGRAM GRADECAL;
+VAR
+  NQUIZ   : INTEGER;
+  I       : INTEGER;
+  TAKE    : INTEGER;
+  LMODE   : INTEGER;
+  PMODE   : INTEGER;
+
+  LAB1C   : REAL;
+  LAB1R   : REAL;
+  LAB2C   : REAL;
+  LAB2R   : REAL;
+  LAB3C   : REAL;
+  LAB3R   : REAL;
+  LAB1AVG : REAL;
+  LAB2AVG : REAL;
+  LAB3AVG : REAL;
+  LABAVG  : REAL;
+
+  PRJ1C   : REAL;
+  PRJ1R   : REAL;
+  PRJ2C   : REAL;
+  PRJ2R   : REAL;
+  PRJ3C   : REAL;
+  PRJ3R   : REAL;
+  PRJ4C   : REAL;
+  PRJ4R   : REAL;
+  PRJ1AVG : REAL;
+  PRJ2AVG : REAL;
+  PRJ3AVG : REAL;
+  PRJ4AVG : REAL;
+  PROJAVG : REAL;
+
+  QUIZSUM : REAL;
+  QUIZAVG : REAL;
+  QG      : REAL;
+
+  EX1     : REAL;
+  EX2     : REAL;
+  HIGH    : REAL;
+  BASE    : REAL;
+  PREFNAL : REAL;
+
+  REQA    : REAL;
+  REQB    : REAL;
+  REQC    : REAL;
+  REQD    : REAL;
+BEGIN
+  ## Labs: choose avg or all details
+
+  WRITE('');
+  WRITE('=== TIPS grade what-if calculator ===');
+  WRITE('');
+  WRITE('This program estimates a course average.');
+  WRITE('Enter real or what-if scores to explore options.');
+  WRITE('');
+  WRITE('First: labs (10 percent of course grade).');
+  WRITE('Enter 1 if you know your LAB avg.');
+  WRITE('Enter 2 to enter each lab code and report grade.');
+  WRITE('');
+  WRITE('Enter 1 for LAB avg, 2 for all labs:');
+  READ(LMODE);
+
+  IF LMODE = 1 THEN
+    BEGIN
+      WRITE('Enter LAB average (0-100):');
+      READ(LABAVG);
+      WRITE('');
+      WRITE('LAB avg used in calculation:');
+      WRITE(LABAVG)
+    END
+  ELSE
+    BEGIN
+      WRITE('Enter LAB1 CODE grade (0-100):');
+      READ(LAB1C);
+      WRITE('Enter LAB1 REPORT grade (0-100):');
+      READ(LAB1R);
+
+      WRITE('Enter LAB2 CODE grade (0-100):');
+      READ(LAB2C);
+      WRITE('Enter LAB2 REPORT grade (0-100):');
+      READ(LAB2R);
+
+      WRITE('Enter LAB3 CODE grade (0-100):');
+      READ(LAB3C);
+      WRITE('Enter LAB3 REPORT grade (0-100):');
+      READ(LAB3R);
+
+      LAB1AVG := (LAB1C + LAB1R) / 2.0;
+      LAB2AVG := (LAB2C + LAB2R) / 2.0;
+      LAB3AVG := (LAB3C + LAB3R) / 2.0;
+
+      LABAVG := (LAB1AVG + LAB2AVG + LAB3AVG) / 3.0;
+      WRITE('');
+      WRITE('LAB avg used in calculation:');
+      WRITE(LABAVG)
+    END;
+
+  ## Project: choose avg or all parts
+
+  WRITE('');
+  WRITE('Next: project (40 percent of course grade).');
+  WRITE('Enter 1 if you know your PROJ avg.');
+  WRITE('Enter 2 to enter each project code and report.');
+  WRITE('');
+  WRITE('Enter 1 for PROJ avg, 2 for all parts:');
+  READ(PMODE);
+
+  IF PMODE = 1 THEN
+    BEGIN
+      WRITE('Enter PROJ average (0-100):');
+      READ(PROJAVG);
+      WRITE('');
+      WRITE('PROJ avg used in calculation:');
+      WRITE(PROJAVG)
+    END
+  ELSE
+    BEGIN
+      WRITE('Enter PRJ1 CODE grade (0-100):');
+      READ(PRJ1C);
+      WRITE('Enter PRJ1 REPORT grade (0-100):');
+      READ(PRJ1R);
+
+      WRITE('Enter PRJ2 CODE grade (0-100):');
+      READ(PRJ2C);
+      WRITE('Enter PRJ2 REPORT grade (0-100):');
+      READ(PRJ2R);
+
+      WRITE('Enter PRJ3 CODE grade (0-100):');
+      READ(PRJ3C);
+      WRITE('Enter PRJ3 REPORT grade (0-100):');
+      READ(PRJ3R);
+
+      WRITE('Enter PRJ4 CODE grade (0-100):');
+      READ(PRJ4C);
+      WRITE('Enter PRJ4 REPORT grade (0-100):');
+      READ(PRJ4R);
+
+      PRJ1AVG := (PRJ1C + PRJ1R) / 2.0;
+      PRJ2AVG := (PRJ2C + PRJ2R) / 2.0;
+      PRJ3AVG := (PRJ3C + PRJ3R) / 2.0;
+      PRJ4AVG := (PRJ4C + PRJ4R) / 2.0;
+
+      PROJAVG := (PRJ1AVG + PRJ2AVG + PRJ3AVG + PRJ4AVG) / 4.0;
+      WRITE('');
+      WRITE('PROJ avg used in calculation:');
+      WRITE(PROJAVG)
+    END;
+
+  ## Quizzes: record quiz avg and test loop logic
+
+  WRITE('');
+  WRITE('Now: quizzes (10 percent of course grade).');
+  WRITE('Include real or what-if quiz scores to test cases.');
+  WRITE('');
+  WRITE('How many quizzes do you want to average?');
+  READ(NQUIZ);
+
+  QUIZSUM := 0.0;
+  QUIZAVG := 0.0;
+  I := 0;
+
+  IF NQUIZ > 0 THEN
+    BEGIN
+      WHILE I < NQUIZ
+        BEGIN
+          I := I + 1;
+          WRITE('Enter quiz grade:');
+          READ(QG);
+          QUIZSUM := QUIZSUM + QG
+        END;
+      QUIZAVG := QUIZSUM / NQUIZ;
+      WRITE('');
+      WRITE('Quiz avg used in calculation:');
+      WRITE(QUIZAVG)
+    END
+  ELSE
+    WRITE('No quizzes entered; quiz average treated as 0.');
+
+  ## Exams without final
+
+  WRITE('Enter EXAM1 grade (0-100):');
+  READ(EX1);
+
+  WRITE('Enter EXAM2 grade (0-100):');
+  READ(EX2);
+
+  ## Current average before any final; rescale by 0.9 total weight
+  PREFNAL := ((LABAVG * 0.1)
+           +  (PROJAVG * 0.4)
+           +  (QUIZAVG * 0.1)
+           +  (EX1 * 0.15)
+           +  (EX2 * 0.15)) / 0.9;
+
+  WRITE('');
+  WRITE('=== Current avg without final (approx) ===');
+  WRITE(PREFNAL);
+  WRITE('This is your current avg if you skip the final.');
+  WRITE('Real gradebook rounding may differ slightly.');
+
+  ## Optional final exam decision
+
+  WRITE('Take the final? Enter 1 for YES, 0 for NO:');
+  READ(TAKE);
+
+  IF TAKE = 0 THEN
+    BEGIN
+      WRITE('No-final case; grade based on current average.');
+      WRITE('This is not official in any way; check Canvas and syllabus.')
+    END
+  ELSE
+    BEGIN
+      WRITE('=== Final exam what-if calculator ===');
+
+      HIGH := EX1;
+      IF EX2 > HIGH THEN
+        HIGH := EX2;
+
+      ## BASE uses lab, proj, quiz, and the higher exam
+      BASE := (LABAVG * 0.1)
+            + (PROJAVG * 0.4)
+            + (QUIZAVG * 0.1)
+            + (HIGH * 0.15);
+
+      ## FINALGRADE = BASE + 0.25 * FINAL
+      REQA := (90.0 - BASE) / 0.25;
+      REQB := (80.0 - BASE) / 0.25;
+      REQC := (65.0 - BASE) / 0.25;
+      REQD := (55.0 - BASE) / 0.25;
+
+      WRITE('Needed FINAL score for an A (90+):');
+      WRITE(REQA);
+
+      WRITE('Needed FINAL score for a B (80-89):');
+      WRITE(REQB);
+
+      WRITE('Needed FINAL score for a C (65-79):');
+      WRITE(REQC);
+
+      WRITE('Needed FINAL score for a D (55-64):');
+      WRITE(REQD);
+
+      WRITE('If a needed score > 100, that letter is not realistic.');
+      WRITE('If a needed score < 0, you earn that letter even with 0.');
+      WRITE('This is not official in any way; check Canvas and syllabus.')
+    END;
+
+  WRITE('Grade calculator complete.')
+END

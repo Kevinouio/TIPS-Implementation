@@ -30,6 +30,14 @@ BEGIN                                 { return TOK_BEGIN; }
 END                                   { return END; }
 WRITE                                 { return WRITE; }
 READ                                  { return READ; }
+IF                                    { return IF; }
+THEN                                  { return THEN; }
+ELSE                                  { return ELSE; }
+WHILE                                 { return WHILE; }
+SENIORITIS                            { return SENIORITIS; }
+NOT                                   { return TOK_NOT; }
+AND                                   { return TOK_AND; }
+OR                                    { return TOK_OR; }
 
 VAR                                   { return VAR; }
 
@@ -51,9 +59,15 @@ REAL                                  { return REAL; }
 "^^"                                    { return CUSTOM_OPER; }
 "/"                                     { return DIVIDE; }
 "*"                                     { return MULTIPLY; }
+"<>"                                   { return NOTEQUALTO; }
+"="                                    { return EQUALTO; }
+"<"                                    { return LESSTHAN; }
+">"                                    { return GREATERTHAN; }
 MOD                                     { return MOD; }
 "++"                                    { return INCREMENT; }
 "--"                                    { return DECREMENT; }
+
+"##"[^\n]*                             { }
 
 
 {ID_LONG}                               { return UNKNOWN; }

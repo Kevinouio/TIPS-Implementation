@@ -19,7 +19,7 @@
 #define VAR         1014
 #define WHILE       1015
 #define WRITE       1016
-#define CUSTOM      1017
+#define SENIORITIS  1017
 // ---------------------------------------------------------------------------
 // Datatype Specifiers
 // ---------------------------------------------------------------------------
@@ -89,7 +89,7 @@ inline const char* tokName(Token t) {
     case VAR:           return "VAR";
     case WHILE:         return "WHILE";
     case WRITE:         return "WRITE";
-    case CUSTOM:        return "CUSTOM KEYWORD";      
+    case SENIORITIS:    return "SENIORITIS";      
     case INTEGER:       return "INTEGER";
     case REAL:          return "REAL";
     case SEMICOLON:     return "SEMICOLON";

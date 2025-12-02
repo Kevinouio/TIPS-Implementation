@@ -1,0 +1,57 @@
+PROGRAM EUCLID;
+VAR
+  A     : INTEGER;
+  B     : INTEGER;
+  TEMP  : INTEGER;
+  STEP  : INTEGER;
+BEGIN
+  ## Euclid's algorithm: read two integers, loop with MOD until B = 0, then report the GCD.
+  ## Demo checklist: arithmetic (+, MOD), logic (AND/NOT), WHILE loop, IF branches, comments, SENIORITIS on success.
+
+  WRITE('Enter the first positive integer:');
+  READ(A);
+
+  WRITE('Enter the second positive integer:');
+  READ(B);
+
+  WRITE('--- Euclid GCD demo starting ---');
+
+  STEP := 1;
+
+  ## Handle all-zero input using a logical AND guard.
+  IF (A = 0) AND (B = 0) THEN
+    BEGIN
+      WRITE('Both inputs are zero; GCD is undefined.');
+      WRITE('Calling SENIORITIS early because there is no work to do.');
+      SENIORITIS
+    END
+  ELSE
+    BEGIN
+      IF NOT (A = B) THEN
+        WRITE('Numbers differ; Euclid will reconcile them.');
+
+      WHILE (B <> 0)
+        BEGIN
+          WRITE('Step:');
+          WRITE(STEP);
+
+          TEMP := A MOD B;    ## arithmetic core: A = B * Q + TEMP
+          A := B;
+          B := TEMP;
+
+          STEP := STEP + 1;
+
+          IF B <> 0 THEN
+            WRITE('Remainder non-zero; continue looping.')
+          ELSE
+            WRITE('Remainder is zero; loop will exit.')
+        END;
+
+      WRITE('GCD found:');
+      WRITE(A);
+      WRITE('Triggering SENIORITIS to celebrate the result.');
+      SENIORITIS
+    END;
+
+  WRITE('Demo complete.')
+END
